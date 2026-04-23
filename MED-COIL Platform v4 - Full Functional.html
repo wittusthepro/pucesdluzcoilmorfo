@@ -1,0 +1,3007 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MED·COIL v4.0 — Plataforma Integral PUCE-SD × LUZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --indigo:#2563EB;--indigo-d:#1D4ED8;--indigo-l:#EFF6FF;--indigo-m:#BFDBFE;
+  --emerald:#059669;--emerald-l:#ECFDF5;--emerald-m:#A7F3D0;
+  --rose:#E11D48;--rose-l:#FFF1F2;--rose-m:#FECDD3;
+  --amber:#D97706;--amber-l:#FFFBEB;--amber-m:#FDE68A;
+  --violet:#7C3AED;--violet-l:#F5F3FF;--violet-m:#DDD6FE;
+  --cyan:#0891B2;--cyan-l:#ECFEFF;
+  --slate0:#F8FAFC;--slate1:#F1F5F9;--slate2:#E2E8F0;--slate3:#CBD5E1;
+  --slate4:#94A3B8;--slate5:#64748B;--slate6:#475569;--slate7:#334155;
+  --slate8:#1E293B;--slate9:#0F172A;
+  --white:#FFFFFF;--text:#0F172A;
+  --sidebar-w:260px;--header-h:64px;
+  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:24px;--r-2xl:32px;
+  --sh-sm:0 1px 3px rgba(0,0,0,.07);--sh-md:0 4px 16px rgba(0,0,0,.08);--sh-lg:0 12px 40px rgba(0,0,0,.12);
+  --font-head:'Instrument Serif',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --ease:.2s ease;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--slate0);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{line-height:1.25;color:var(--text)}
+a{color:var(--indigo);text-decoration:none}
+input,button,select,textarea{font-family:var(--font-body)}
+ul{list-style:none}
+img{max-width:100%;display:block}
+.screen{display:none}.screen.on{display:flex}
+
+/* LOGIN */
+#s-login{min-height:100vh;align-items:center;justify-content:center;padding:1rem;background:linear-gradient(135deg,var(--slate9) 0%,#1a2e5c 50%,var(--slate9) 100%)}
+.login-card{background:var(--white);border-radius:var(--r-2xl);padding:2.8rem 2.4rem;width:100%;max-width:460px;box-shadow:var(--sh-lg);animation:slideUp .4s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+.login-logo{text-align:center;margin-bottom:2rem}
+.login-logo-icon{width:68px;height:68px;background:var(--indigo);border-radius:var(--r-xl);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.8rem;color:white;font-family:var(--font-head);font-style:italic}
+.login-logo h1{font-family:var(--font-head);font-size:2rem;color:var(--indigo);letter-spacing:1px;font-style:italic}
+.login-logo p{font-size:.8rem;color:var(--slate5);margin-top:2px}
+.lf-group{margin-bottom:1rem}
+.lf-group label{display:block;font-size:.78rem;font-weight:600;color:var(--slate7);margin-bottom:.35rem;letter-spacing:.02em;text-transform:uppercase}
+.lf-input{width:100%;padding:10px 14px;border:1.5px solid var(--slate2);border-radius:var(--r-sm);font-size:.9rem;color:var(--text);background:var(--white);transition:border-color var(--ease),box-shadow var(--ease);outline:none}
+.lf-input:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.login-btn{width:100%;padding:12px;background:var(--indigo);color:white;border:none;border-radius:var(--r-sm);font-size:.95rem;font-weight:600;cursor:pointer;margin-top:.5rem;transition:opacity var(--ease),transform .1s}
+.login-btn:hover{opacity:.9;transform:translateY(-1px)}
+.login-err{display:none;background:var(--rose-l);color:var(--rose);border:1px solid var(--rose-m);border-radius:var(--r-sm);padding:9px 14px;font-size:.82rem;margin-bottom:1rem}
+.login-err.on{display:block}
+.login-tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:var(--slate1);border-radius:var(--r-sm);padding:4px}
+.ltab{flex:1;padding:8px;border:none;background:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;color:var(--slate5);transition:all var(--ease)}
+.ltab.active{background:white;color:var(--indigo);box-shadow:var(--sh-sm)}
+.reg-form{display:none}.reg-form.on{display:block}
+.quick-accounts{margin-top:1.5rem;padding-top:1.2rem;border-top:1px solid var(--slate2)}
+.qa-label{font-size:.72rem;font-weight:700;color:var(--slate4);text-align:center;text-transform:uppercase;letter-spacing:.08em;margin-bottom:.8rem}
+.qa-chip{display:flex;align-items:center;gap:.75rem;padding:.65rem 1rem;border:1px solid var(--slate2);border-radius:var(--r-md);cursor:pointer;margin-bottom:.5rem;transition:all var(--ease)}
+.qa-chip:hover{background:var(--indigo-l);border-color:var(--indigo)}
+.qa-av{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:white;flex-shrink:0}
+.qa-info .name{font-size:.83rem;font-weight:600;color:var(--text)}
+.qa-info .role{font-size:.7rem;color:var(--slate5)}
+.role-badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;display:inline-block}
+.rb-super{background:#FEF3C7;color:#92400E}.rb-editor{background:var(--emerald-l);color:#065F46}.rb-student{background:var(--indigo-l);color:var(--indigo-d)}
+
+/* MAIN APP */
+#s-app{flex-direction:column;min-height:100vh}
+#topbar{position:fixed;top:0;left:0;right:0;height:var(--header-h);z-index:200;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--slate2);display:flex;align-items:center;padding:0 20px 0 16px;gap:12px}
+.tb-brand{display:flex;align-items:center;gap:10px;cursor:pointer;flex-shrink:0}
+.tb-icon{width:36px;height:36px;background:var(--indigo);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-style:italic;color:white;font-size:1rem}
+.tb-title{font-size:1.05rem;font-weight:600;letter-spacing:.03em}
+.tb-title span{color:var(--indigo)}
+.tb-search{flex:1;max-width:480px;margin:0 16px;position:relative}
+.tb-search input{width:100%;padding:8px 12px 8px 36px;background:var(--slate1);border:1.5px solid var(--slate2);border-radius:10px;font-size:.85rem;outline:none;transition:all var(--ease)}
+.tb-search input:focus{background:white;border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.tb-search-icon{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--slate4);font-size:.85rem}
+.tb-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.tb-icon-btn{width:36px;height:36px;border:1px solid var(--slate2);border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--slate5);transition:all var(--ease);font-size:.9rem;position:relative}
+.tb-icon-btn:hover{background:var(--slate1);color:var(--indigo);border-color:var(--indigo)}
+.notif-dot{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:var(--rose);color:white;border-radius:50%;font-size:.5rem;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid white}
+.tb-user{display:flex;align-items:center;gap:8px;padding:5px 10px;border:1px solid var(--slate2);border-radius:10px;cursor:pointer;transition:all var(--ease)}
+.tb-user:hover{background:var(--slate1);border-color:var(--indigo)}
+.tb-user-av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:white}
+.tb-user-name{font-size:.8rem;font-weight:600;color:var(--text)}
+.tb-view-btn{font-size:.78rem;font-weight:600;padding:6px 12px;border-radius:8px;border:1px solid var(--slate2);background:white;cursor:pointer;color:var(--slate6);transition:all var(--ease);white-space:nowrap}
+.tb-view-btn:hover{background:var(--indigo-l);color:var(--indigo);border-color:var(--indigo-m)}
+.tb-mobile-menu{display:none;background:none;border:none;cursor:pointer;color:var(--slate6);font-size:1.1rem;padding:4px;border-radius:6px}
+
+/* LAYOUT */
+.app-body{display:flex;padding-top:var(--header-h);min-height:100vh}
+.sidebar{width:var(--sidebar-w);background:white;position:fixed;top:var(--header-h);left:0;height:calc(100vh - var(--header-h));z-index:100;border-right:1px solid var(--slate2);display:flex;flex-direction:column;overflow-y:auto;transition:transform var(--ease)}
+.sidebar-user{padding:16px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;gap:10px}
+.su-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:white;flex-shrink:0}
+.su-info{flex:1;min-width:0}
+.su-name{font-size:.8rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.su-role{font-size:.68rem;color:var(--slate5)}
+.sidebar-nav{padding:12px 8px;flex:1}
+.nav-section{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--slate4);padding:8px 12px 4px;margin-top:4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;cursor:pointer;font-size:.85rem;color:var(--slate6);transition:all var(--ease);position:relative;border:none;background:none;width:100%;text-align:left}
+.nav-item:hover{background:var(--slate1);color:var(--text)}
+.nav-item.active{background:var(--indigo-l);color:var(--indigo);font-weight:600}
+.nav-item .ni-icon{width:20px;text-align:center;font-size:.9rem;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--rose);color:white;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:20px}
+.nav-divider{height:1px;background:var(--slate2);margin:8px 12px}
+.sidebar-footer{padding:12px;border-top:1px solid var(--slate2)}
+.sf-version{font-size:.68rem;color:var(--slate4);text-align:center}
+.main-content{margin-left:var(--sidebar-w);flex:1;padding:28px}
+.page{display:none;animation:pageIn .25s ease}.page.active{display:block}
+@keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+.page-header h2{font-family:var(--font-head);font-size:1.75rem;font-style:italic;color:var(--text);margin-bottom:3px}
+.page-header h2 span{color:var(--indigo)}
+.page-header p{font-size:.85rem;color:var(--slate5)}
+.ph-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 18px;border-radius:var(--r-sm);font-size:.85rem;font-weight:600;cursor:pointer;border:none;transition:all var(--ease);white-space:nowrap;font-family:var(--font-body)}
+.btn-primary{background:var(--indigo);color:white}.btn-primary:hover{background:var(--indigo-d);transform:translateY(-1px)}
+.btn-success{background:var(--emerald);color:white}.btn-success:hover{background:#047857;transform:translateY(-1px)}
+.btn-danger{background:var(--rose);color:white}.btn-danger:hover{background:#be123c}
+.btn-outline{background:transparent;color:var(--indigo);border:1.5px solid var(--indigo)}.btn-outline:hover{background:var(--indigo-l)}
+.btn-ghost{background:transparent;color:var(--slate6);border:1px solid var(--slate2)}.btn-ghost:hover{background:var(--slate1);color:var(--text)}
+.btn-sm{padding:6px 12px;font-size:.78rem}.btn-lg{padding:12px 24px;font-size:.95rem}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none!important}
+
+/* CARDS */
+.card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);box-shadow:var(--sh-sm)}
+.card-hd{padding:16px 20px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-title{font-size:.92rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+.card-title-icon{color:var(--indigo)}
+.card-body{padding:20px}
+.card-ft{padding:12px 20px;border-top:1px solid var(--slate2)}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+
+/* STAT CARDS */
+.stat-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:18px;display:flex;align-items:center;gap:14px;box-shadow:var(--sh-sm);transition:all var(--ease)}
+.stat-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.sc-icon{width:50px;height:50px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.sc-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate4);margin-bottom:2px}
+.sc-value{font-size:1.75rem;font-weight:700;color:var(--text);line-height:1;font-family:var(--font-head)}
+.sc-change{font-size:.72rem;margin-top:3px;font-weight:600}
+.sc-up{color:var(--emerald)}.sc-info{color:var(--indigo)}
+.ic-blue{background:var(--indigo-l);color:var(--indigo)}.ic-green{background:var(--emerald-l);color:var(--emerald)}
+.ic-amber{background:var(--amber-l);color:var(--amber)}.ic-purple{background:var(--violet-l);color:var(--violet)}
+.ic-rose{background:var(--rose-l);color:var(--rose)}.ic-cyan{background:var(--cyan-l);color:var(--cyan)}
+
+/* BADGES */
+.badge{display:inline-flex;align-items:center;font-size:.68rem;font-weight:700;padding:2px 9px;border-radius:20px}
+.b-primary{background:var(--indigo-l);color:var(--indigo-d)}.b-success{background:var(--emerald-l);color:#065F46}
+.b-warning{background:var(--amber-l);color:#92400E}.b-danger{background:var(--rose-l);color:#9F1239}
+.b-purple{background:var(--violet-l);color:#5B21B6}.b-cyan{background:var(--cyan-l);color:#164E63}
+.b-gray{background:var(--slate1);color:var(--slate6)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.84rem}
+thead tr{background:var(--slate1)}
+th{padding:10px 14px;text-align:left;font-weight:700;font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--slate5);border-bottom:1px solid var(--slate2);white-space:nowrap}
+td{padding:13px 14px;border-bottom:1px solid var(--slate2);color:var(--text);vertical-align:middle}
+tbody tr{transition:background var(--ease)}
+tbody tr:hover{background:var(--slate0)}
+tbody tr:last-child td{border-bottom:none}
+
+/* FORMS */
+.f-group{margin-bottom:14px}
+.f-group label{display:block;font-size:.78rem;font-weight:600;color:var(--slate7);margin-bottom:5px;text-transform:uppercase;letter-spacing:.03em}
+.f-group label .req{color:var(--rose);margin-left:2px}
+.f-ctrl{width:100%;padding:9px 12px;border:1.5px solid var(--slate2);border-radius:var(--r-sm);font-size:.88rem;color:var(--text);background:white;transition:border-color var(--ease),box-shadow var(--ease);outline:none}
+.f-ctrl:focus{border-color:var(--indigo);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+textarea.f-ctrl{resize:vertical;min-height:90px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.f-hint{font-size:.72rem;color:var(--slate4);margin-top:4px}
+
+/* PROGRESS */
+.prog-track{background:var(--slate2);border-radius:20px;height:7px;overflow:hidden}
+.prog-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,var(--indigo),var(--emerald));transition:width .6s ease}
+
+/* TABS */
+.tabs{display:flex;border-bottom:2px solid var(--slate2);margin-bottom:20px;overflow-x:auto;gap:2px}
+.tab-btn{padding:9px 16px;border:none;border-bottom:2px solid transparent;margin-bottom:-2px;font-size:.84rem;font-weight:600;color:var(--slate5);cursor:pointer;background:none;white-space:nowrap;transition:all var(--ease)}
+.tab-btn:hover{color:var(--indigo)}.tab-btn.active{color:var(--indigo);border-bottom-color:var(--indigo)}
+.tab-pane{display:none}.tab-pane.active{display:block}
+
+/* MEDIA */
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.media-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);overflow:hidden;cursor:pointer;transition:all var(--ease)}
+.media-card:hover{box-shadow:var(--sh-md);transform:translateY(-2px);border-color:var(--indigo-m)}
+.media-thumb{height:100px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;background:var(--slate1);position:relative}
+.media-thumb img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.media-thumb video{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+.media-info{padding:8px;border-top:1px solid var(--slate2)}
+.media-name{font-size:.74rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px}
+.media-meta{font-size:.65rem;color:var(--slate4);display:flex;justify-content:space-between}
+.media-acts{display:flex;gap:4px;padding:6px 8px;border-top:1px solid var(--slate2)}
+.media-acts button{flex:1;background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--slate4);padding:3px;border-radius:4px;transition:all var(--ease)}
+.media-acts button:hover{background:var(--slate1);color:var(--indigo)}
+.media-acts button.del:hover{color:var(--rose)}
+
+/* UPLOAD ZONE */
+.upload-zone{border:2px dashed var(--slate3);border-radius:var(--r-lg);padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all var(--ease);background:var(--slate0)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--indigo);background:var(--indigo-l)}
+.upload-zone input[type="file"]{display:none}
+.uz-icon{font-size:2.5rem;margin-bottom:1rem;color:var(--indigo)}
+.uz-title{font-size:.95rem;font-weight:600;margin-bottom:4px}
+.uz-sub{font-size:.8rem;color:var(--slate5)}
+.upload-progress{margin-top:12px;display:none}
+.upload-progress.on{display:block}
+
+/* EDITOR */
+.editor-bar{display:flex;flex-wrap:wrap;gap:3px;padding:8px;background:var(--slate1);border:1.5px solid var(--slate2);border-bottom:none;border-radius:var(--r-sm) var(--r-sm) 0 0}
+.ebar-btn{min-width:30px;height:30px;border:1px solid var(--slate2);border-radius:5px;background:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--slate5);transition:all var(--ease);padding:0 6px}
+.ebar-btn:hover{background:var(--indigo);color:white;border-color:var(--indigo)}
+.ebar-div{width:1px;background:var(--slate3);margin:2px 4px;align-self:stretch}
+.editor-area{min-height:320px;border:1.5px solid var(--slate2);border-top:none;border-radius:0 0 var(--r-sm) var(--r-sm);padding:14px 16px;font-size:.9rem;line-height:1.7;outline:none;background:white;color:var(--text)}
+.editor-area:focus{border-color:var(--indigo)}
+.editor-area img{max-width:100%;border-radius:var(--r-sm);margin:.5rem 0}
+.editor-area iframe{width:100%;aspect-ratio:16/9;border:none;border-radius:var(--r-sm);margin:1rem 0}
+.editor-area table{width:100%;border-collapse:collapse;margin:1rem 0}
+.editor-area table td,.editor-area table th{border:1px solid var(--slate2);padding:8px 12px}
+.editor-area table th{background:var(--slate1);font-weight:700}
+
+/* FORUMS */
+.thread{border:1px solid var(--slate2);border-radius:var(--r-md);margin-bottom:10px;overflow:hidden;background:white}
+.thread-hd{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--slate1)}
+.thread-hd:hover{background:var(--slate2)}
+.thread-body{display:none;padding:14px 16px;border-top:1px solid var(--slate2)}
+.thread-body.open{display:block}
+.reply{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--slate2)}
+.reply-content{background:var(--slate0);padding:10px 12px;border-radius:var(--r-sm);flex:1;font-size:.85rem}
+.reply-actions{display:flex;gap:6px;margin-top:6px}
+
+/* QUIZ */
+.quiz-box{max-width:600px;margin:0 auto}
+.quiz-q{font-family:var(--font-head);font-size:1.15rem;color:var(--text);margin-bottom:8px;line-height:1.4;font-style:italic}
+.quiz-ctx{font-size:.84rem;color:var(--slate6);padding:10px 14px;background:var(--indigo-l);border-left:3px solid var(--indigo);border-radius:0 var(--r-sm) var(--r-sm) 0;margin-bottom:20px;line-height:1.6}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.qopt{padding:12px 16px;border:1.5px solid var(--slate2);border-radius:var(--r-md);background:white;font-size:.87rem;color:var(--text);cursor:pointer;transition:all var(--ease);text-align:left}
+.qopt:hover:not(:disabled){border-color:var(--indigo);background:var(--indigo-l)}
+.qopt.correct{border-color:var(--emerald);background:var(--emerald-l);color:#065F46}
+.qopt.wrong{border-color:var(--rose);background:var(--rose-l);color:#9F1239}
+.qopt:disabled{cursor:not-allowed}
+.quiz-fb{padding:12px 14px;border-radius:var(--r-sm);font-size:.84rem;line-height:1.6;display:none;margin-bottom:16px}
+.quiz-fb.show{display:block}
+.quiz-fb.ok{background:var(--emerald-l);color:#065F46;border:1px solid var(--emerald-m)}
+.quiz-fb.err{background:var(--rose-l);color:#9F1239;border:1px solid var(--rose-m)}
+.quiz-nav{display:flex;align-items:center;justify-content:space-between}
+.quiz-counter{font-size:.78rem;color:var(--slate4);font-family:var(--font-mono)}
+
+/* GAMIFICATION */
+.xp-card{background:linear-gradient(135deg,var(--indigo) 0%,var(--violet) 100%);color:white;border-radius:var(--r-xl);padding:24px;position:relative;overflow:hidden}
+.xp-card::before{content:'';position:absolute;top:-30px;right:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)}
+.xp-level{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.75;margin-bottom:6px}
+.xp-name{font-family:var(--font-head);font-size:1.6rem;font-style:italic;margin-bottom:14px}
+.xp-bar-track{background:rgba(255,255,255,.2);border-radius:20px;height:8px;margin-bottom:8px}
+.xp-bar-fill{height:100%;border-radius:20px;background:white;transition:width .8s ease}
+.xp-meta{font-size:.75rem;opacity:.75;display:flex;justify-content:space-between}
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:10px;margin-top:14px}
+.badge-item{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);padding:12px 8px;text-align:center;transition:all var(--ease)}
+.badge-item:hover{box-shadow:var(--sh-md);transform:translateY(-2px)}
+.badge-item .bi-icon{font-size:1.6rem;margin-bottom:6px}
+.badge-item .bi-name{font-size:.68rem;font-weight:700;color:var(--slate6);line-height:1.3}
+.badge-item.locked{opacity:.4;filter:grayscale(1)}
+
+/* TOGGLE */
+.toggle-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);background:var(--slate0);border:1px solid var(--slate2);margin-bottom:10px;cursor:pointer;transition:all var(--ease)}
+.toggle-row:hover{border-color:var(--indigo-m);background:var(--indigo-l)}
+.toggle{width:42px;height:22px;background:var(--slate3);border-radius:20px;position:relative;flex-shrink:0;transition:background var(--ease)}
+.toggle::after{content:'';position:absolute;width:16px;height:16px;background:white;border-radius:50%;top:3px;left:3px;transition:transform var(--ease);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on{background:var(--emerald)}.toggle.on::after{transform:translateX(20px)}
+.tg-info .tg-title{font-size:.84rem;font-weight:600;color:var(--text)}
+.tg-info .tg-desc{font-size:.74rem;color:var(--slate5)}
+
+/* AVATAR */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:white;flex-shrink:0}
+.av-sm{width:28px;height:28px;font-size:.62rem}.av-md{width:36px;height:36px;font-size:.75rem}.av-lg{width:48px;height:48px;font-size:.95rem}
+
+/* COIL */
+.coil-hero{background:linear-gradient(135deg,var(--slate9) 0%,#1a3070 100%);color:white;border-radius:var(--r-xl);padding:32px;margin-bottom:24px;position:relative;overflow:hidden}
+.coil-hero::after{content:'';position:absolute;right:-40px;bottom:-40px;width:200px;height:200px;border-radius:50%;background:rgba(37,99,235,.25)}
+.coil-eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px}
+.coil-hero h2{font-family:var(--font-head);font-size:1.8rem;font-style:italic;margin-bottom:10px}
+.coil-hero p{font-size:.88rem;color:rgba(255,255,255,.75);max-width:540px;line-height:1.65}
+.coil-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.coil-badge{font-size:.72rem;font-weight:600;padding:4px 12px;border-radius:20px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.85)}
+
+/* STUDENT DASHBOARD */
+.welcome-card{background:var(--indigo);color:white;border-radius:var(--r-xl);padding:28px 32px;position:relative;overflow:hidden;margin-bottom:24px}
+.welcome-card::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.wc-greeting{font-size:.82rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.75;margin-bottom:6px}
+.wc-name{font-family:var(--font-head);font-size:2rem;font-style:italic;margin-bottom:8px}
+.wc-sub{font-size:.88rem;opacity:.8;max-width:480px;line-height:1.6}
+.wc-ctas{margin-top:18px;display:flex;gap:10px;flex-wrap:wrap}
+.wc-btn{padding:9px 20px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;border:none;transition:all var(--ease)}
+.wc-btn-primary{background:white;color:var(--indigo)}.wc-btn-primary:hover{opacity:.9}
+.wc-btn-outline{background:transparent;color:white;border:1px solid rgba(255,255,255,.4)}.wc-btn-outline:hover{background:rgba(255,255,255,.1)}
+
+/* TOAST */
+#toasts{position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.toast{background:var(--slate9);color:white;padding:10px 16px;border-radius:var(--r-sm);font-size:.84rem;display:flex;align-items:center;gap:10px;max-width:320px;pointer-events:auto;animation:toastIn .3s ease,toastOut .3s ease 2.7s forwards;box-shadow:var(--sh-lg)}
+.toast.success{border-left:3px solid var(--emerald)}.toast.error{border-left:3px solid var(--rose)}
+.toast.info{border-left:3px solid var(--indigo)}.toast.warning{border-left:3px solid var(--amber)}
+@keyframes toastIn{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(110%)}}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal{background:white;border-radius:var(--r-xl);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--sh-lg);animation:modalIn .25s ease}
+.modal-lg{max-width:760px}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(10px)}to{opacity:1;transform:none}}
+.modal-hd{padding:18px 22px;border-bottom:1px solid var(--slate2);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:white;z-index:1}
+.modal-hd h3{font-size:1.05rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.modal-close{width:30px;height:30px;border:none;background:var(--slate1);border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--slate5);font-size:.85rem;transition:all var(--ease)}
+.modal-close:hover{background:var(--rose-l);color:var(--rose)}
+.modal-body{padding:22px}
+.modal-ft{padding:14px 22px;border-top:1px solid var(--slate2);display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:0;background:white}
+
+/* PROFILE */
+.profile-banner{background:linear-gradient(135deg,var(--indigo),var(--violet));height:140px;border-radius:var(--r-xl) var(--r-xl) 0 0;position:relative}
+.profile-av{width:80px;height:80px;border-radius:50%;border:4px solid white;position:absolute;bottom:-40px;left:28px;font-size:1.5rem;font-weight:700;color:white;display:flex;align-items:center;justify-content:center}
+.profile-info{padding:52px 28px 28px}
+.profile-name{font-family:var(--font-head);font-size:1.5rem;font-style:italic;margin-bottom:4px}
+.profile-role{font-size:.85rem;color:var(--slate5)}
+.profile-stats{display:flex;gap:24px;margin-top:14px;padding-top:14px;border-top:1px solid var(--slate2)}
+.pstat{text-align:center}.pstat-n{font-size:1.4rem;font-weight:700;color:var(--indigo)}.pstat-l{font-size:.72rem;color:var(--slate4);text-transform:uppercase;letter-spacing:.05em}
+
+/* ANNOUNCEMENTS */
+.annc-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:18px 20px;margin-bottom:12px;border-left:3px solid var(--indigo)}
+.annc-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px}
+.annc-title{font-size:.92rem;font-weight:600;color:var(--text)}
+.annc-body{font-size:.84rem;color:var(--slate5);line-height:1.65}
+.annc-meta{font-size:.72rem;color:var(--slate4);margin-top:8px}
+
+/* CALENDAR */
+.cal-event{background:var(--indigo-l);border-left:3px solid var(--indigo);border-radius:0 var(--r-sm) var(--r-sm) 0;padding:10px 14px;margin-bottom:10px;cursor:pointer;transition:all var(--ease)}
+.cal-event:hover{background:var(--indigo-m)}
+.cal-date{font-size:.72rem;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.cal-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:2px}
+.cal-meta{font-size:.75rem;color:var(--slate5)}
+
+/* CASES */
+.case-card{background:white;border:1px solid var(--slate2);border-radius:var(--r-lg);padding:20px;margin-bottom:14px;transition:all var(--ease)}
+.case-card:hover{box-shadow:var(--sh-md);border-color:var(--indigo-m)}
+.case-type{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:10px}
+.ct-abp{background:var(--emerald-l);color:#065F46}.ct-osce{background:var(--violet-l);color:#5B21B6}.ct-imagen{background:var(--amber-l);color:#92400E}
+.case-card h4{font-family:var(--font-head);font-size:1rem;font-style:italic;margin-bottom:6px}
+.case-card p{font-size:.83rem;color:var(--slate5);line-height:1.6}
+.case-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:12px;border-top:1px solid var(--slate2)}
+
+/* CHAT AI */
+.chat-log{height:220px;overflow-y:auto;background:var(--slate0);border-radius:var(--r-md);padding:14px;margin-bottom:12px}
+.chat-msg{margin-bottom:10px;font-size:.84rem;line-height:1.6}
+.chat-msg.bot{color:var(--slate7)}.chat-msg.user{text-align:right;color:var(--indigo)}
+.chat-input-row{display:flex;gap:8px}
+
+/* ANALYTICS */
+.metric-mini{background:white;border:1px solid var(--slate2);border-radius:var(--r-md);padding:14px;text-align:center}
+.mm-val{font-size:1.6rem;font-weight:700;color:var(--indigo)}
+.mm-lbl{font-size:.72rem;color:var(--slate4);font-weight:600;text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+
+/* UTILS */
+.mb1{margin-bottom:.5rem}.mb2{margin-bottom:1rem}.mb3{margin-bottom:1.5rem}.mb4{margin-bottom:2rem}
+.mt1{margin-top:.5rem}.mt2{margin-top:1rem}.mt3{margin-top:1.5rem}
+.flex{display:flex}.align-c{align-items:center}.just-b{justify-content:space-between}.flex-wrap{flex-wrap:wrap}
+.gap1{gap:.5rem}.gap2{gap:1rem}
+.text-muted{color:var(--slate5);font-size:.84rem}.text-sm{font-size:.8rem}
+.fw6{font-weight:600}.fw7{font-weight:700}.w100{width:100%}
+.sep{height:1px;background:var(--slate2);margin:16px 0}
+.color-dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex-shrink:0}
+.hidden{display:none!important}
+
+/* VIDEO PLAYER */
+.video-player-wrap{background:#000;border-radius:var(--r-lg);overflow:hidden;margin-bottom:16px;position:relative}
+.video-player-wrap video{width:100%;max-height:400px;display:block}
+.video-player-wrap iframe{width:100%;aspect-ratio:16/9;border:none;display:block}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}.sidebar.open{transform:none}
+  .main-content{margin-left:0}.g2,.g3,.g4{grid-template-columns:1fr}.f-row{grid-template-columns:1fr}
+  .tb-search{display:none}.tb-mobile-menu{display:block}.tb-view-btn{display:none}
+}
+</style>
+</head>
+<body>
+
+<div id="toasts" aria-live="polite"></div>
+
+<!-- ════ LOGIN ════ -->
+<div id="s-login" class="screen on">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-logo-icon">M</div>
+      <h1>MED·COIL</h1>
+      <p>Plataforma Integral PUCE-SD × LUZ · v4.0</p>
+    </div>
+    <div class="login-tabs">
+      <button class="ltab active" onclick="switchLoginTab('login')">Iniciar Sesión</button>
+      <button class="ltab" onclick="switchLoginTab('register')">Registrarse</button>
+    </div>
+    <div class="login-err" id="loginErr">⚠ Credenciales incorrectas. Intenta de nuevo.</div>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <form onsubmit="doLogin(event)">
+        <div class="lf-group"><label>Correo Electrónico</label><input type="email" id="le" class="lf-input" placeholder="usuario@institucion.edu.ec" required autocomplete="email"></div>
+        <div class="lf-group"><label>Contraseña</label><input type="password" id="lp" class="lf-input" placeholder="••••" required autocomplete="current-password"></div>
+        <button type="submit" class="login-btn">Iniciar Sesión →</button>
+      </form>
+      <div class="quick-accounts">
+        <div class="qa-label">Acceso Rápido de Demostración</div>
+        <div class="qa-chip" onclick="quickLogin('gnguida@pucesd.edu.ec')">
+          <div class="qa-av" style="background:linear-gradient(135deg,#2563EB,#059669)">GN</div>
+          <div class="qa-info"><div class="name">Guido Nino Guida Acevedo</div><div class="role">PUCE-SD · <span class="role-badge rb-super">SUPER ADMIN</span></div></div>
+        </div>
+        <div class="qa-chip" onclick="quickLogin('j.linares@luz.edu.ve')">
+          <div class="qa-av" style="background:linear-gradient(135deg,#7C3AED,#059669)">JL</div>
+          <div class="qa-info"><div class="name">Dr. Johan Linares Artigas</div><div class="role">LUZ · <span class="role-badge rb-editor">ADMIN</span></div></div>
+        </div>
+        <div class="qa-chip" onclick="quickLogin('a.garcia@estudiante.luz.edu.ve')">
+          <div class="qa-av" style="background:linear-gradient(135deg,#0891B2,#7C3AED)">AG</div>
+          <div class="qa-info"><div class="name">Ana García Montiel</div><div class="role">LUZ · <span class="role-badge rb-student">ESTUDIANTE</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" class="reg-form">
+      <form onsubmit="doRegister(event)">
+        <div class="f-row">
+          <div class="lf-group"><label>Nombre</label><input type="text" id="rn" class="lf-input" placeholder="Nombre" required></div>
+          <div class="lf-group"><label>Apellido</label><input type="text" id="rln" class="lf-input" placeholder="Apellido" required></div>
+        </div>
+        <div class="lf-group"><label>Correo Electrónico</label><input type="email" id="re" class="lf-input" placeholder="correo@institucion.edu" required></div>
+        <div class="lf-group"><label>Institución</label>
+          <select id="ri" class="lf-input">
+            <option value="PUCE-SD">PUCE-SD — Ecuador</option>
+            <option value="LUZ">LUZ — Venezuela</option>
+            <option value="Otra">Otra institución</option>
+          </select>
+        </div>
+        <div class="lf-group"><label>Carrera / Programa</label><input type="text" id="rc" class="lf-input" placeholder="Ej: Medicina, 3er año"></div>
+        <div class="lf-group"><label>ORCID (opcional)</label><input type="text" id="ro" class="lf-input" placeholder="0000-0000-0000-0000"></div>
+        <div class="f-row">
+          <div class="lf-group"><label>Contraseña</label><input type="password" id="rp" class="lf-input" placeholder="Mínimo 6 caracteres" required minlength="6"></div>
+          <div class="lf-group"><label>Confirmar</label><input type="password" id="rp2" class="lf-input" placeholder="Repetir contraseña" required></div>
+        </div>
+        <button type="submit" class="login-btn" style="background:var(--emerald)">Crear Cuenta →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ════ MAIN APP ════ -->
+<div id="s-app" class="screen">
+  <header id="topbar">
+    <button class="tb-mobile-menu" onclick="toggleSidebar()">☰</button>
+    <div class="tb-brand" onclick="goHome()">
+      <div class="tb-icon">M</div>
+      <span class="tb-title">MED·<span>COIL</span></span>
+    </div>
+    <div class="tb-search">
+      <span class="tb-search-icon">🔍</span>
+      <input type="search" placeholder="Buscar módulos, casos, recursos..." id="globalSearch" oninput="handleSearch(this.value)">
+    </div>
+    <div class="tb-actions">
+      <button class="tb-view-btn" id="viewToggleBtn" onclick="toggleView()">👁 Vista Estudiante</button>
+      <button class="tb-icon-btn" onclick="openModal('m-notifications')" title="Notificaciones">
+        🔔<span class="notif-dot" id="notifDot">3</span>
+      </button>
+      <div class="tb-user" onclick="navTo('profile')" id="headerUser">
+        <div class="tb-user-av" id="headerAv"></div>
+        <span class="tb-user-name" id="headerName"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-body">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-user" id="sidebarUser">
+        <div class="su-av av av-md" id="suAv"></div>
+        <div class="su-info"><div class="su-name" id="suName"></div><div class="su-role" id="suRole"></div></div>
+      </div>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
+      <div class="sidebar-footer"><div class="sf-version">© 2026 MED-COIL · PUCE-SD × LUZ · v4.0</div></div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+
+      <!-- ADMIN DASHBOARD -->
+      <div id="p-admin-dashboard" class="page">
+        <div class="page-header">
+          <div><h2>Panel de <span>Control</span></h2><p id="dashWelcome"></p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="exportReport()">📥 Exportar Reporte</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-content')">+ Nuevo Contenido</button>
+          </div>
+        </div>
+        <div style="background:var(--indigo);color:white;border-radius:var(--r-xl);padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px;position:relative;overflow:hidden">
+          <div style="position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.08)"></div>
+          <div style="font-size:2rem;flex-shrink:0">📢</div>
+          <div style="flex:1">
+            <div style="font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.7;margin-bottom:4px">MED-COIL v4.0 ACTIVA</div>
+            <div style="font-size:1rem;font-weight:600;margin-bottom:4px">Plataforma completamente funcional — Edición total, carga de medios, foros y gestión de usuarios</div>
+            <div style="font-size:.84rem;opacity:.8">Todos los módulos, evaluaciones y el espacio COIL están operativos para ambas instituciones.</div>
+          </div>
+          <button class="btn btn-sm" style="background:white;color:var(--indigo);flex-shrink:0" onclick="navTo('admin-modules')">Explorar →</button>
+        </div>
+        <div class="g4 mb3" id="dashStats"></div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title"><span class="card-title-icon">📋</span> Actividad Reciente</div></div>
+            <div class="tbl-wrap"><table><thead><tr><th>Acción</th><th>Usuario</th><th>Hora</th><th>Estado</th></tr></thead><tbody id="activityTbody"></tbody></table></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title"><span class="card-title-icon">📊</span> Estado de Módulos</div><button class="btn btn-sm btn-primary" onclick="navTo('admin-modules')">Ver todos</button></div>
+            <div class="card-body" id="contentStatus"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN MODULES -->
+      <div id="p-admin-modules" class="page">
+        <div class="page-header">
+          <div><h2>Módulos <span>Académicos</span></h2><p>Gestión y edición del currículo médico integrado PUCE-SD × LUZ</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="exportModulesCSV()">📥 Exportar CSV</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-module')">+ Nuevo Módulo</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">📚 Todos los Módulos (<span id="modCount">0</span>)</div>
+            <input type="search" class="f-ctrl" style="width:220px" placeholder="Buscar módulo..." oninput="filterTable(this,'modulesTable')">
+          </div>
+          <div class="tbl-wrap"><table id="modulesTable"><thead><tr><th>#</th><th>Módulo</th><th>Categoría</th><th>Lecciones</th><th>Estado</th><th>Autor</th><th>Acciones</th></tr></thead><tbody id="modulesTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADMIN EDITOR -->
+      <div id="p-admin-editor" class="page">
+        <div class="page-header">
+          <div><h2>Editor de <span>Lecciones</span></h2><p>Crea contenido con texto enriquecido, videos, imágenes y tablas</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="saveDraft()">💾 Guardar Borrador</button>
+            <button class="btn btn-success" onclick="publishLesson()">🌐 Publicar Lección</button>
+          </div>
+        </div>
+        <div class="card mb2">
+          <div class="card-hd">
+            <div class="card-title">✏️ Editor de Lección</div>
+            <select class="f-ctrl" style="width:220px" id="editorModSel"></select>
+          </div>
+          <div class="card-body">
+            <div class="f-row mb2">
+              <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="lessonTitle" class="f-ctrl" placeholder="Ej: Anatomía Funcional del Sistema Cardiovascular"></div>
+              <div class="f-group"><label>Tipo de Lección</label>
+                <select id="lessonType" class="f-ctrl">
+                  <option>Teórica</option><option>Práctica</option><option>Caso Clínico</option><option>Seminario</option><option>Webinar</option>
+                </select>
+              </div>
+            </div>
+            <div class="f-group">
+              <label>Contenido <span class="req">*</span></label>
+              <div class="editor-bar">
+                <button class="ebar-btn" onclick="ec('bold')" title="Negrita"><b>B</b></button>
+                <button class="ebar-btn" onclick="ec('italic')" title="Cursiva"><i>I</i></button>
+                <button class="ebar-btn" onclick="ec('underline')" title="Subrayado"><u>U</u></button>
+                <button class="ebar-btn" onclick="ec('strikeThrough')" title="Tachado"><s>S</s></button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ef('h2')" title="Título H2">H2</button>
+                <button class="ebar-btn" onclick="ef('h3')" title="Título H3">H3</button>
+                <button class="ebar-btn" onclick="ef('p')" title="Párrafo">P</button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ec('insertUnorderedList')" title="Lista">•</button>
+                <button class="ebar-btn" onclick="ec('insertOrderedList')" title="Lista Num.">1.</button>
+                <button class="ebar-btn" onclick="eBlockquote()" title="Cita">❝</button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="eLink()" title="Enlace">🔗</button>
+                <button class="ebar-btn" onclick="openModal('m-insert-video')" title="Video">▶</button>
+                <button class="ebar-btn" onclick="openModal('m-insert-img')" title="Imagen">🖼</button>
+                <button class="ebar-btn" onclick="eTable()" title="Tabla">⊞</button>
+                <button class="ebar-btn" onclick="eHR()" title="Separador">—</button>
+                <div class="ebar-div"></div>
+                <button class="ebar-btn" onclick="ec('undo')" title="Deshacer">↩</button>
+                <button class="ebar-btn" onclick="ec('redo')" title="Rehacer">↪</button>
+                <button class="ebar-btn" onclick="clearEditor()" title="Limpiar" style="color:var(--rose)">🗑</button>
+              </div>
+              <div class="editor-area" id="lessonEditor" contenteditable="true" spellcheck="true"><h2>Título de la Lección</h2><p>Comienza a escribir el contenido aquí. Puedes usar la barra de herramientas para dar formato, insertar imágenes, videos y tablas.</p></div>
+            </div>
+            <div class="f-row mt2">
+              <div class="f-group"><label>Duración estimada</label><input type="text" id="lessonDuration" class="f-ctrl" placeholder="Ej: 35 minutos"></div>
+              <div class="f-group"><label>Tags (coma separados)</label><input type="text" id="lessonTags" class="f-ctrl" placeholder="anatomía, corazón, morfofunción"></div>
+            </div>
+            <div class="f-group"><label>Objetivos de Aprendizaje</label><textarea id="lessonObjectives" class="f-ctrl" rows="3" placeholder="Al finalizar esta lección, el estudiante será capaz de..."></textarea></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">📚 Lecciones Guardadas</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Título</th><th>Módulo</th><th>Tipo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="lessonsTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADMIN MEDIA -->
+      <div id="p-admin-media" class="page">
+        <div class="page-header">
+          <div><h2>Biblioteca de <span>Medios</span></h2><p>Videos, imágenes, PDFs, diapositivas y modelos 3D</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openModal('m-add-url-media')">🔗 Agregar URL</button>
+            <button class="btn btn-primary" onclick="triggerUpload()">☁ Subir Archivos</button>
+          </div>
+        </div>
+        <div class="upload-zone mb3" id="uploadZone" onclick="triggerUpload()" ondragover="uzDrag(event,true)" ondragleave="uzDrag(event,false)" ondrop="uzDrop(event)">
+          <input type="file" id="fileInput" multiple accept="video/*,image/*,.pdf,.pptx,.ppt,.docx,.doc,.mp3,.glb,.gltf" onchange="handleFiles(event)">
+          <div class="uz-icon">☁</div>
+          <div class="uz-title">Arrastra archivos aquí o haz clic para seleccionar</div>
+          <div class="uz-sub">MP4, JPG/PNG, PDF, PPTX, Word, MP3, Modelos 3D (GLB) — Máx. 500 MB por archivo</div>
+          <div class="upload-progress" id="uploadProgress">
+            <div class="prog-track mt2" style="max-width:300px;margin:0 auto"><div class="prog-fill" id="uploadBar" style="width:0%"></div></div>
+            <div class="text-sm text-muted mt1" id="uploadStatus">Procesando...</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">📁 Archivos (<span id="mediaCount">0</span>)</div>
+            <input type="search" class="f-ctrl" style="width:220px" placeholder="Buscar archivo..." oninput="filterMedia(this.value)">
+          </div>
+          <div class="card-body">
+            <div class="tabs">
+              <button class="tab-btn active" onclick="switchTab(this,'tab-all')">Todos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-videos')">🎬 Videos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-images')">🖼 Imágenes</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-docs')">📄 Documentos</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-slides')">📊 Diapositivas</button>
+              <button class="tab-btn" onclick="switchTab(this,'tab-3d')">🧊 3D</button>
+            </div>
+            <div class="tab-pane active" id="tab-all"><div class="media-grid" id="mediaGrid"></div></div>
+            <div class="tab-pane" id="tab-videos"><div class="media-grid" id="mgVideos"></div></div>
+            <div class="tab-pane" id="tab-images"><div class="media-grid" id="mgImages"></div></div>
+            <div class="tab-pane" id="tab-docs"><div class="media-grid" id="mgDocs"></div></div>
+            <div class="tab-pane" id="tab-slides"><div class="media-grid" id="mgSlides"></div></div>
+            <div class="tab-pane" id="tab-3d"><div class="media-grid" id="mg3d"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN FORUMS -->
+      <div id="p-admin-forums" class="page">
+        <div class="page-header">
+          <div><h2>Foros de <span>Discusión</span></h2><p>Debates académicos PUCE-SD × LUZ en tiempo real</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="openModal('m-new-announcement')">📢 Anuncio</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-forum')">+ Nuevo Foro</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">💬 Foros Activos (<span id="forumCount">0</span>)</div>
+            <input type="search" class="f-ctrl" style="width:200px" placeholder="Buscar foro..." oninput="filterForums(this.value)">
+          </div>
+          <div class="card-body" id="forumsContainer"></div>
+        </div>
+      </div>
+
+      <!-- ADMIN EVALUACIONES -->
+      <div id="p-admin-evaluations" class="page">
+        <div class="page-header">
+          <div><h2>Gestión de <span>Evaluaciones</span></h2><p>Quizzes, OSCEs, ABP y diagnóstico por imagen</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-eval')">+ Nueva Evaluación</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">🎓 Evaluaciones (<span id="evalCount">0</span>)</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>Nombre</th><th>Tipo</th><th>Módulo</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="evalsTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADMIN CASOS CLÍNICOS -->
+      <div id="p-admin-cases" class="page">
+        <div class="page-header">
+          <div><h2>Casos <span>Clínicos</span></h2><p>ABP escalonado con árbol de decisiones para ambas cohortes</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-case')">+ Nuevo Caso</button></div>
+        </div>
+        <div id="casesContainer"></div>
+      </div>
+
+      <!-- ADMIN USERS -->
+      <div id="p-admin-users" class="page">
+        <div class="page-header">
+          <div><h2>Usuarios y <span>Roles</span></h2><p>Control de acceso por institución y nivel</p></div>
+          <div class="ph-actions">
+            <button class="btn btn-ghost btn-sm" onclick="exportUsersCSV()">📥 Exportar CSV</button>
+            <button class="btn btn-primary" onclick="openModal('m-new-user')">+ Nuevo Usuario</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd">
+            <div class="card-title">👥 Usuarios Registrados (<span id="userCount">0</span>)</div>
+            <input type="search" class="f-ctrl" style="width:220px" placeholder="Buscar usuario..." oninput="filterTable(this,'usersTable')">
+          </div>
+          <div class="tbl-wrap"><table id="usersTable"><thead><tr><th>Usuario</th><th>Email</th><th>Institución</th><th>Rol</th><th>Carrera</th><th>Acciones</th></tr></thead><tbody id="usersTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- ADMIN ANALYTICS -->
+      <div id="p-admin-analytics" class="page">
+        <div class="page-header">
+          <div><h2>Analíticas <span>xAPI</span></h2><p>Trazabilidad académica por institución, módulo y estudiante</p></div>
+        </div>
+        <div class="g4 mb3" id="analyticsStats"></div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📈 Progreso por Módulo</div></div>
+            <div class="card-body" id="analyticsProgress"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏆 Top Estudiantes</div></div>
+            <div class="card-body" id="topStudents"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ADMIN COIL -->
+      <div id="p-admin-coil" class="page">
+        <div class="page-header">
+          <div><h2>Gestión <span>COIL</span></h2><p>Actividades colaborativas internacionales PUCE-SD × LUZ</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-coil')">+ Nueva Actividad COIL</button></div>
+        </div>
+        <div class="coil-hero">
+          <div class="coil-eyebrow">Collaborative Online International Learning</div>
+          <h2>PUCE-SD Ecuador × LUZ Venezuela</h2>
+          <p>Plataforma de internacionalización curricular. Los estudiantes de Morfofunción y Anatomía Humana trabajan en proyectos conjuntos sin barreras geográficas.</p>
+          <div class="coil-badges"><span class="coil-badge">7 Sistemas Anatómicos</span><span class="coil-badge">2 Países</span><span class="coil-badge">ABP Binacional</span><span class="coil-badge">Webinars Conjuntos</span></div>
+        </div>
+        <div class="g3" id="coilActivities"></div>
+      </div>
+
+      <!-- ADMIN SETTINGS -->
+      <div id="p-admin-settings" class="page">
+        <div class="page-header">
+          <div><h2>Configuración <span>General</span></h2><p>Ajustes globales, seguridad y funcionalidades de la plataforma</p></div>
+          <div class="ph-actions"><button class="btn btn-success" onclick="saveSettings()">💾 Guardar Todo</button></div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏛 Información Institucional</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Nombre Plataforma</label><input type="text" class="f-ctrl" value="MED-COIL" id="cfg-name"></div>
+              <div class="f-group"><label>Universidad Coordinadora (Ecuador)</label><input type="text" class="f-ctrl" value="PUCE-SD — Pontificia Universidad Católica del Ecuador, Sede Santo Domingo" id="cfg-uni1"></div>
+              <div class="f-group"><label>Universidad Colaboradora (Venezuela)</label><input type="text" class="f-ctrl" value="LUZ — Universidad del Zulia, Maracaibo" id="cfg-uni2"></div>
+              <div class="f-group"><label>Email de Soporte</label><input type="email" class="f-ctrl" value="gnguida@pucesd.edu.ec" id="cfg-email"></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">⚙️ Funcionalidades</div></div>
+            <div class="card-body" id="featureToggles"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🔒 Seguridad y Sesión</div></div>
+            <div class="card-body">
+              <div class="f-row">
+                <div class="f-group"><label>Tiempo sesión (min)</label><input type="number" class="f-ctrl" value="120"></div>
+                <div class="f-group"><label>Intentos de login</label><input type="number" class="f-ctrl" value="5"></div>
+              </div>
+              <div class="f-group"><label>Tamaño máx. archivo (MB)</label><input type="number" class="f-ctrl" value="500"></div>
+              <button class="btn btn-outline w100 mt2" style="color:var(--rose);border-color:var(--rose)" onclick="openModal('m-change-password')">🔑 Cambiar Contraseña</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🎨 Apariencia</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Color Principal</label>
+                <div class="flex gap2 mt1">
+                  <div onclick="changeColor('#2563EB')" style="width:32px;height:32px;border-radius:50%;background:#2563EB;cursor:pointer;border:3px solid var(--slate8)"></div>
+                  <div onclick="changeColor('#059669')" style="width:32px;height:32px;border-radius:50%;background:#059669;cursor:pointer"></div>
+                  <div onclick="changeColor('#7C3AED')" style="width:32px;height:32px;border-radius:50%;background:#7C3AED;cursor:pointer"></div>
+                  <div onclick="changeColor('#E11D48')" style="width:32px;height:32px;border-radius:50%;background:#E11D48;cursor:pointer"></div>
+                  <div onclick="changeColor('#D97706')" style="width:32px;height:32px;border-radius:50%;background:#D97706;cursor:pointer"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT DASHBOARD -->
+      <div id="p-dashboard" class="page">
+        <div class="welcome-card" id="welcomeCard">
+          <div class="wc-greeting">Bienvenido de nuevo</div>
+          <div class="wc-name" id="wcName">Estudiante</div>
+          <div class="wc-sub" id="wcSub">Continúa donde lo dejaste. Tu próxima lección está lista.</div>
+          <div class="wc-ctas">
+            <button class="wc-btn wc-btn-primary" onclick="navTo('modules')">Continuar lección →</button>
+            <button class="wc-btn wc-btn-outline" onclick="navTo('evaluation')">Ver evaluaciones</button>
+          </div>
+        </div>
+        <div class="g3 mb3">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📖 Módulo Actual</div></div>
+            <div class="card-body">
+              <div class="fw6 mb1">Sistema Cardiovascular</div>
+              <div class="prog-track mb1"><div class="prog-fill" style="width:75%"></div></div>
+              <div class="text-muted mb2">75% completado · 18/24 lecciones</div>
+              <button class="btn btn-primary btn-sm" onclick="navTo('modules')">Continuar →</button>
+            </div>
+          </div>
+          <div class="card" style="background:linear-gradient(135deg,var(--violet),var(--indigo));color:white;border:none">
+            <div class="card-hd" style="border-color:rgba(255,255,255,.15)"><div class="card-title" style="color:white">🏆 Gamificación</div></div>
+            <div class="card-body">
+              <div class="flex align-c gap2 mb2"><div style="font-size:2rem">🥈</div><div><div class="fw6">Nivel 8</div><div style="font-size:.82rem;opacity:.8">Médico Residente II</div></div></div>
+              <div style="font-size:.8rem;opacity:.8;margin-bottom:6px">9,500 / 10,000 XP</div>
+              <div style="background:rgba(255,255,255,.2);border-radius:20px;height:7px"><div style="height:100%;width:95%;background:white;border-radius:20px"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🌐 Colaboración COIL</div></div>
+            <div class="card-body">
+              <div class="fw6 mb1">Equipo: Cardiovascular Alpha</div>
+              <div class="text-muted mb1">Socio: LUZ - Maracaibo, Venezuela</div>
+              <div class="text-muted mb2">Próxima sesión: Jueves 10:00 AM</div>
+              <button class="btn btn-success btn-sm" onclick="navTo('coil')">🎥 Unirse al espacio</button>
+            </div>
+          </div>
+        </div>
+        <div class="card mb3">
+          <div class="card-hd"><div class="card-title">🤖 Tutor IA — Genflow</div><span class="badge b-success">En línea</span></div>
+          <div class="card-body">
+            <div class="chat-log" id="studentChatLog"><div class="chat-msg bot"><strong>Genflow:</strong> Hola, ¿en qué puedo ayudarte hoy con anatomía o morfofunción?</div></div>
+            <div class="chat-input-row">
+              <input type="text" id="studentChatInput" class="f-ctrl" placeholder="Pregunta sobre anatomía, fisiología, casos clínicos..." onkeydown="if(event.key==='Enter')studentAskAI()">
+              <button class="btn btn-primary" onclick="studentAskAI()">Enviar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT MODULES -->
+      <div id="p-modules" class="page">
+        <div class="page-header"><div><h2>Módulos de <span>Aprendizaje</span></h2><p>Sistemas anatómicos integrados PUCE-SD y LUZ</p></div></div>
+        <div id="studentModulesGrid"></div>
+      </div>
+
+      <!-- STUDENT EVALUATION -->
+      <div id="p-evaluation" class="page">
+        <div class="page-header"><div><h2>Zona de <span>Evaluación</span></h2><p>Quizzes, casos ABP y retos clínicos</p></div></div>
+        <div style="background:var(--indigo);color:white;border-radius:var(--r-xl);padding:28px;margin-bottom:24px">
+          <div style="font-family:var(--font-head);font-size:1.4rem;font-style:italic;margin-bottom:8px">Saber anatomía no es memorizar huesos.</div>
+          <div style="font-size:.88rem;opacity:.85;max-width:560px;line-height:1.65">Es reconocer una TC, orientarte en un quirófano y explicarle al paciente qué estructura le está fallando.</div>
+        </div>
+        <div class="g3 mb3">
+          <div class="card" style="cursor:pointer" onclick="document.getElementById('quizSection').scrollIntoView({behavior:'smooth'})">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">❓</div>
+              <div class="fw6 mb1">Cuestionarios</div>
+              <div class="text-muted mb2">Banco aleatorizado con retroalimentación inmediata</div>
+              <span class="badge b-primary">Quiz activo ↓</span>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="navTo('cases')">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">🩺</div>
+              <div class="fw6 mb1">Casos ABP</div>
+              <div class="text-muted mb2">Árbol de decisiones clínicas con docentes PUCE-LUZ</div>
+              <span class="badge b-success">Ver casos →</span>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer" onclick="openModal('m-escaperoom')">
+            <div class="card-body" style="text-align:center;padding:24px">
+              <div style="font-size:2.5rem;margin-bottom:10px">🔐</div>
+              <div class="fw6 mb1">Escape Room</div>
+              <div class="text-muted mb2">Gamificación morfofuncional con ranking PUCE-LUZ</div>
+              <span class="badge b-danger">Iniciar misión →</span>
+            </div>
+          </div>
+        </div>
+        <div id="quizSection">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">❓ Quiz Activo — Sistema Cardiorrespiratorio</div><span id="quizScore" class="badge b-primary">0 correctas</span></div>
+            <div class="card-body">
+              <div class="prog-track mb2"><div class="prog-fill" id="quizBar" style="width:0%"></div></div>
+              <div class="quiz-box" id="quizContent"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT CASES -->
+      <div id="p-cases" class="page">
+        <div class="page-header"><div><h2>Casos <span>Clínicos</span></h2><p>Aprendizaje Basado en Problemas con árbol de decisiones</p></div></div>
+        <div id="studentCasesContainer"></div>
+      </div>
+
+      <!-- COIL SPACE -->
+      <div id="p-coil" class="page">
+        <div class="page-header"><div><h2>Espacio <span>COIL</span></h2><p>Colaboración internacional PUCE-SD Ecuador × LUZ Venezuela</p></div></div>
+        <div class="coil-hero">
+          <div class="coil-eyebrow">Collaborative Online International Learning · Internacionalización en Casa</div>
+          <h2>Dos facultades. Un solo cuerpo humano.</h2>
+          <p>La PUCE-SD y la Universidad del Zulia integran sus cátedras de Morfofunción y Anatomía Humana.</p>
+          <div class="coil-badges"><span class="coil-badge">Ecuador × Venezuela</span><span class="coil-badge">7 Sistemas</span><span class="coil-badge">ABP Binacional</span></div>
+        </div>
+        <div class="g2 mb3">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">📅 Próximos Webinars</div></div>
+            <div class="card-body" id="coilEvents"></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">💬 Foro Internacional</div><button class="btn btn-sm btn-primary" onclick="openModal('m-new-forum')">+ Nuevo hilo</button></div>
+            <div class="card-body" id="coilForums"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORUM PAGE -->
+      <div id="p-forum" class="page">
+        <div class="page-header">
+          <div><h2>Foros de <span>Discusión</span></h2><p>Debates académicos PUCE-SD × LUZ</p></div>
+          <div class="ph-actions"><button class="btn btn-primary" onclick="openModal('m-new-forum')">+ Nuevo Hilo</button></div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">💬 Hilos Activos</div></div>
+          <div class="card-body" id="studentForums"></div>
+        </div>
+      </div>
+
+      <!-- ANNOUNCEMENTS -->
+      <div id="p-announcements" class="page">
+        <div class="page-header">
+          <div><h2>Anuncios <span>Académicos</span></h2><p>Comunicaciones oficiales del programa COIL</p></div>
+          <div class="ph-actions" id="annActionsAdmin"></div>
+        </div>
+        <div id="announcementsContainer"></div>
+      </div>
+
+      <!-- CALENDAR -->
+      <div id="p-calendar" class="page">
+        <div class="page-header">
+          <div><h2>Calendario <span>Académico</span></h2><p>Eventos, seminarios y entregas del semestre</p></div>
+          <div class="ph-actions" id="calActionsAdmin"></div>
+        </div>
+        <div class="g2">
+          <div class="card"><div class="card-hd"><div class="card-title">📅 Mayo 2025</div></div><div class="card-body" id="calEvents"></div></div>
+          <div class="card"><div class="card-hd"><div class="card-title">📅 Junio 2025</div></div><div class="card-body" id="calEventsJun"></div></div>
+        </div>
+      </div>
+
+      <!-- GAMIFICATION -->
+      <div id="p-gamification" class="page">
+        <div class="page-header"><div><h2>Gamificación <span>Médica</span></h2><p>Tu progreso, logros y posición en el ranking PUCE-LUZ</p></div></div>
+        <div class="g2 mb3">
+          <div class="xp-card">
+            <div class="xp-level">Nivel 8 · Médico Residente II</div>
+            <div class="xp-name" id="xpName">Estudiante</div>
+            <div class="xp-bar-track"><div class="xp-bar-fill" style="width:95%"></div></div>
+            <div class="xp-meta"><span>9,500 XP</span><span>10,000 XP para Nivel 9</span></div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🏅 Tus Logros</div></div>
+            <div class="card-body"><div class="badge-grid" id="badgeGrid"></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hd"><div class="card-title">🏆 Ranking PUCE-SD × LUZ</div></div>
+          <div class="tbl-wrap"><table><thead><tr><th>#</th><th>Estudiante</th><th>Institución</th><th>XP</th><th>Nivel</th></tr></thead><tbody id="rankingTbody"></tbody></table></div>
+        </div>
+      </div>
+
+      <!-- PROFILE -->
+      <div id="p-profile" class="page">
+        <div class="card mb3">
+          <div class="profile-banner"><div class="profile-av av" id="profileAv"></div></div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileName"></div>
+            <div class="profile-role" id="profileRole"></div>
+            <div class="profile-stats">
+              <div class="pstat"><div class="pstat-n" id="pstatMod">—</div><div class="pstat-l">Módulos</div></div>
+              <div class="pstat"><div class="pstat-n" id="pstatXP">—</div><div class="pstat-l">XP Total</div></div>
+              <div class="pstat"><div class="pstat-n" id="pstatPubs">—</div><div class="pstat-l">Publicaciones</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="g2">
+          <div class="card">
+            <div class="card-hd"><div class="card-title">✏️ Editar Perfil</div></div>
+            <div class="card-body">
+              <div class="f-group"><label>Nombre completo</label><input type="text" class="f-ctrl" id="profileNameInput"></div>
+              <div class="f-group"><label>Institución</label><input type="text" class="f-ctrl" id="profileInstInput"></div>
+              <div class="f-group"><label>ORCID</label><input type="text" class="f-ctrl" id="profileOrcidInput"></div>
+              <div class="f-group"><label>Email</label><input type="email" class="f-ctrl" id="profileEmailInput"></div>
+              <div class="f-group"><label>Nueva Contraseña (dejar vacío para no cambiar)</label><input type="password" class="f-ctrl" id="profilePwInput" placeholder="Nueva contraseña"></div>
+              <button class="btn btn-primary" onclick="saveProfile()">Guardar cambios</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-hd"><div class="card-title">🎓 Certificados y Logros</div></div>
+            <div class="card-body" id="certsContainer"></div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- ════ MODALS ════ -->
+
+<!-- New Content -->
+<div class="modal-overlay" id="m-new-content">
+  <div class="modal">
+    <div class="modal-hd"><h3>+ ¿Qué deseas crear?</h3><button class="modal-close" onclick="closeModal('m-new-content')">✕</button></div>
+    <div class="modal-body">
+      <div class="g3">
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');openModal('m-new-module')">📚<br>Módulo</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-editor')">✏️<br>Lección</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');navTo('admin-media')">🎬<br>Medio</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');openModal('m-new-forum')">💬<br>Foro</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');openModal('m-new-eval')">🎓<br>Evaluación</button>
+        <button class="btn btn-outline" style="flex-direction:column;padding:20px;height:90px" onclick="closeModal('m-new-content');openModal('m-new-case')">🩺<br>Caso ABP</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Module -->
+<div class="modal-overlay" id="m-new-module">
+  <div class="modal">
+    <div class="modal-hd"><h3>📚 Nuevo Módulo Académico</h3><button class="modal-close" onclick="closeModal('m-new-module')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="nm-title" class="f-ctrl" placeholder="Ej: Sistema Endocrino"></div>
+      <div class="f-group"><label>Descripción</label><textarea id="nm-desc" class="f-ctrl" rows="3" placeholder="Describe el módulo..."></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Categoría</label>
+          <select id="nm-cat" class="f-ctrl">
+            <option>Anatomía</option><option>Fisiología</option><option>Patología</option><option>Embriología</option><option>Histología</option><option>Bioquímica</option>
+          </select>
+        </div>
+        <div class="f-group"><label>Estado</label>
+          <select id="nm-status" class="f-ctrl"><option>Borrador</option><option>Publicado</option></select>
+        </div>
+      </div>
+      <div class="f-group"><label>Institución</label>
+        <select id="nm-inst" class="f-ctrl"><option>PUCE-SD y LUZ</option><option>PUCE-SD</option><option>LUZ</option></select>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-module')">Cancelar</button><button class="btn btn-primary" onclick="createModule()">Crear Módulo</button></div>
+  </div>
+</div>
+
+<!-- Edit Module -->
+<div class="modal-overlay" id="m-edit-module">
+  <div class="modal">
+    <div class="modal-hd"><h3>✏️ Editar Módulo</h3><button class="modal-close" onclick="closeModal('m-edit-module')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="em-id">
+      <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="em-title" class="f-ctrl"></div>
+      <div class="f-group"><label>Descripción</label><textarea id="em-desc" class="f-ctrl" rows="3"></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Categoría</label>
+          <select id="em-cat" class="f-ctrl">
+            <option>Anatomía</option><option>Fisiología</option><option>Patología</option><option>Embriología</option><option>Histología</option><option>Bioquímica</option>
+          </select>
+        </div>
+        <div class="f-group"><label>Estado</label>
+          <select id="em-status" class="f-ctrl"><option>Borrador</option><option>Publicado</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-edit-module')">Cancelar</button><button class="btn btn-primary" onclick="saveEditModule()">Guardar Cambios</button></div>
+  </div>
+</div>
+
+<!-- Insert Video -->
+<div class="modal-overlay" id="m-insert-video">
+  <div class="modal">
+    <div class="modal-hd"><h3>▶ Insertar Video</h3><button class="modal-close" onclick="closeModal('m-insert-video')">✕</button></div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this,'vt-url')">URL Externa</button>
+        <button class="tab-btn" onclick="switchTab(this,'vt-upload')">Subir Archivo</button>
+        <button class="tab-btn" onclick="switchTab(this,'vt-library')">Biblioteca</button>
+      </div>
+      <div class="tab-pane active" id="vt-url">
+        <div class="f-group"><label>URL YouTube / Vimeo / Bunny.net</label><input type="url" id="videoUrl" class="f-ctrl" placeholder="https://www.youtube.com/watch?v=..."></div>
+      </div>
+      <div class="tab-pane" id="vt-upload">
+        <div class="upload-zone" style="padding:1.5rem" onclick="document.getElementById('videoFileInput').click()">
+          <input type="file" id="videoFileInput" accept="video/*" style="display:none" onchange="handleVideoInsert(event)">
+          <div style="font-size:1.5rem">🎬</div><p class="text-sm text-muted mt1">Haz clic para subir un archivo MP4</p>
+        </div>
+      </div>
+      <div class="tab-pane" id="vt-library">
+        <div id="videoLibraryList" style="max-height:200px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-insert-video')">Cancelar</button><button class="btn btn-primary" onclick="insertVideo()">Insertar</button></div>
+  </div>
+</div>
+
+<!-- Insert Image -->
+<div class="modal-overlay" id="m-insert-img">
+  <div class="modal">
+    <div class="modal-hd"><h3>🖼 Insertar Imagen</h3><button class="modal-close" onclick="closeModal('m-insert-img')">✕</button></div>
+    <div class="modal-body">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(this,'it-url')">URL</button>
+        <button class="tab-btn" onclick="switchTab(this,'it-upload')">Subir</button>
+        <button class="tab-btn" onclick="switchTab(this,'it-library')">Biblioteca</button>
+      </div>
+      <div class="tab-pane active" id="it-url">
+        <div class="f-group"><label>URL de la imagen</label><input type="url" id="imgUrl" class="f-ctrl" placeholder="https://..."></div>
+        <div class="f-group"><label>Texto alternativo</label><input type="text" id="imgAlt" class="f-ctrl"></div>
+      </div>
+      <div class="tab-pane" id="it-upload">
+        <div class="upload-zone" style="padding:1.5rem" onclick="document.getElementById('imgFileInput').click()">
+          <input type="file" id="imgFileInput" accept="image/*" style="display:none" onchange="handleImgInsert(event)">
+          <div style="font-size:1.5rem">🖼</div><p class="text-sm text-muted mt1">Haz clic para subir una imagen</p>
+        </div>
+        <div id="imgPreview" style="margin-top:12px;text-align:center"></div>
+      </div>
+      <div class="tab-pane" id="it-library">
+        <div id="imgLibraryList" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-height:200px;overflow-y:auto"></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-insert-img')">Cancelar</button><button class="btn btn-primary" onclick="insertImg()">Insertar</button></div>
+  </div>
+</div>
+
+<!-- Add URL Media -->
+<div class="modal-overlay" id="m-add-url-media">
+  <div class="modal">
+    <div class="modal-hd"><h3>🔗 Agregar Recurso por URL</h3><button class="modal-close" onclick="closeModal('m-add-url-media')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Nombre del recurso <span class="req">*</span></label><input type="text" id="um-name" class="f-ctrl" placeholder="Ej: Atlas de Anatomía Sobotta"></div>
+      <div class="f-group"><label>URL <span class="req">*</span></label><input type="url" id="um-url" class="f-ctrl" placeholder="https://..."></div>
+      <div class="f-group"><label>Tipo</label>
+        <select id="um-type" class="f-ctrl">
+          <option value="video">Video (YouTube/Vimeo)</option>
+          <option value="doc">Documento/PDF</option>
+          <option value="image">Imagen</option>
+          <option value="slides">Presentación</option>
+          <option value="link">Enlace externo</option>
+        </select>
+      </div>
+      <div class="f-group"><label>Descripción</label><textarea id="um-desc" class="f-ctrl" rows="2" placeholder="Descripción breve del recurso..."></textarea></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-add-url-media')">Cancelar</button><button class="btn btn-primary" onclick="addUrlMedia()">Agregar</button></div>
+  </div>
+</div>
+
+<!-- New Eval -->
+<div class="modal-overlay" id="m-new-eval">
+  <div class="modal modal-lg">
+    <div class="modal-hd"><h3>🎓 Nueva Evaluación</h3><button class="modal-close" onclick="closeModal('m-new-eval')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-row">
+        <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="ev-title" class="f-ctrl"></div>
+        <div class="f-group"><label>Tipo</label>
+          <select id="ev-type" class="f-ctrl"><option>Quiz</option><option>OSCE</option><option>ABP</option><option>Diagnóstico por Imagen</option><option>Portafolio</option></select>
+        </div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label>Módulo</label><select id="ev-mod" class="f-ctrl"></select></div>
+        <div class="f-group"><label>Fecha Límite</label><input type="date" id="ev-date" class="f-ctrl"></div>
+      </div>
+      <div class="f-group"><label>Instrucciones</label><textarea id="ev-desc" class="f-ctrl" rows="3" placeholder="Instrucciones para los estudiantes..."></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Puntaje máximo</label><input type="number" id="ev-score" class="f-ctrl" value="100"></div>
+        <div class="f-group"><label>Estado</label><select id="ev-status" class="f-ctrl"><option>Borrador</option><option>Publicado</option></select></div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-eval')">Cancelar</button><button class="btn btn-primary" onclick="createEval()">Crear Evaluación</button></div>
+  </div>
+</div>
+
+<!-- New Forum -->
+<div class="modal-overlay" id="m-new-forum">
+  <div class="modal">
+    <div class="modal-hd"><h3>💬 Nuevo Foro / Hilo</h3><button class="modal-close" onclick="closeModal('m-new-forum')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Tema <span class="req">*</span></label><input type="text" id="for-title" class="f-ctrl" placeholder="Ej: Variantes del triángulo de Hesselbach"></div>
+      <div class="f-group"><label>Descripción / Planteamiento inicial <span class="req">*</span></label><textarea id="for-desc" class="f-ctrl" rows="4" placeholder="Desarrolla el planteamiento inicial del debate..."></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Sistema / Módulo</label><select id="for-mod" class="f-ctrl"></select></div>
+        <div class="f-group"><label>Tipo</label>
+          <select id="for-type" class="f-ctrl"><option>Debate Académico</option><option>Caso Clínico</option><option>Pregunta</option><option>Anuncio</option><option>COIL Internacional</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-forum')">Cancelar</button><button class="btn btn-primary" onclick="createForum()">Crear Foro</button></div>
+  </div>
+</div>
+
+<!-- New Case -->
+<div class="modal-overlay" id="m-new-case">
+  <div class="modal modal-lg">
+    <div class="modal-hd"><h3>🩺 Nuevo Caso Clínico</h3><button class="modal-close" onclick="closeModal('m-new-case')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-row">
+        <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="cc-title" class="f-ctrl" placeholder="Ej: Síndrome de Mirizzi tipo III"></div>
+        <div class="f-group"><label>Tipo</label>
+          <select id="cc-type" class="f-ctrl"><option>ABP</option><option>OSCE</option><option>Imagen</option></select>
+        </div>
+      </div>
+      <div class="f-group"><label>Módulo</label><select id="cc-mod" class="f-ctrl"></select></div>
+      <div class="f-group"><label>Descripción del caso <span class="req">*</span></label><textarea id="cc-desc" class="f-ctrl" rows="4" placeholder="Presenta el caso clínico con datos del paciente, síntomas y contexto..."></textarea></div>
+      <div class="f-group"><label>Preguntas orientadoras</label><textarea id="cc-questions" class="f-ctrl" rows="3" placeholder="¿Cuáles son las relaciones anatómicas? ¿Qué estructura está comprometida?..."></textarea></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-case')">Cancelar</button><button class="btn btn-primary" onclick="createCase()">Crear Caso</button></div>
+  </div>
+</div>
+
+<!-- New User -->
+<div class="modal-overlay" id="m-new-user">
+  <div class="modal">
+    <div class="modal-hd"><h3>👤 Nuevo Usuario</h3><button class="modal-close" onclick="closeModal('m-new-user')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-row">
+        <div class="f-group"><label>Nombre <span class="req">*</span></label><input type="text" id="nu-name" class="f-ctrl"></div>
+        <div class="f-group"><label>Email <span class="req">*</span></label><input type="email" id="nu-email" class="f-ctrl"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label>Institución</label><select id="nu-inst" class="f-ctrl"><option>PUCE-SD</option><option>LUZ</option><option>Otra</option></select></div>
+        <div class="f-group"><label>Rol</label><select id="nu-role" class="f-ctrl"><option value="editor">Admin/Editor</option><option value="student">Estudiante</option></select></div>
+      </div>
+      <div class="f-group"><label>Carrera / Programa</label><input type="text" id="nu-career" class="f-ctrl" placeholder="Ej: Medicina, 3er año"></div>
+      <div class="f-group"><label>Contraseña temporal <span class="req">*</span></label><input type="password" id="nu-pw" class="f-ctrl" placeholder="Mínimo 6 caracteres" minlength="6"></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-user')">Cancelar</button><button class="btn btn-primary" onclick="createUser()">Crear Usuario</button></div>
+  </div>
+</div>
+
+<!-- Edit User -->
+<div class="modal-overlay" id="m-edit-user">
+  <div class="modal">
+    <div class="modal-hd"><h3>✏️ Editar Usuario</h3><button class="modal-close" onclick="closeModal('m-edit-user')">✕</button></div>
+    <div class="modal-body">
+      <input type="hidden" id="eu-email-orig">
+      <div class="f-row">
+        <div class="f-group"><label>Nombre</label><input type="text" id="eu-name" class="f-ctrl"></div>
+        <div class="f-group"><label>Email</label><input type="email" id="eu-email" class="f-ctrl"></div>
+      </div>
+      <div class="f-row">
+        <div class="f-group"><label>Institución</label><select id="eu-inst" class="f-ctrl"><option>PUCE-SD</option><option>LUZ</option><option>Otra</option></select></div>
+        <div class="f-group"><label>Rol</label><select id="eu-role" class="f-ctrl"><option value="superadmin">Super Admin</option><option value="editor">Admin/Editor</option><option value="student">Estudiante</option></select></div>
+      </div>
+      <div class="f-group"><label>Carrera</label><input type="text" id="eu-career" class="f-ctrl"></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-edit-user')">Cancelar</button><button class="btn btn-primary" onclick="saveEditUser()">Guardar</button></div>
+  </div>
+</div>
+
+<!-- New Announcement -->
+<div class="modal-overlay" id="m-new-announcement">
+  <div class="modal">
+    <div class="modal-hd"><h3>📢 Nuevo Anuncio</h3><button class="modal-close" onclick="closeModal('m-new-announcement')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="an-title" class="f-ctrl" placeholder="Título del anuncio"></div>
+      <div class="f-group"><label>Contenido <span class="req">*</span></label><textarea id="an-body" class="f-ctrl" rows="4" placeholder="Escribe el contenido del anuncio..."></textarea></div>
+      <div class="f-group"><label>Prioridad</label>
+        <select id="an-priority" class="f-ctrl"><option value="normal">Normal</option><option value="high">Alta</option><option value="urgent">Urgente</option></select>
+      </div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-announcement')">Cancelar</button><button class="btn btn-primary" onclick="createAnnouncement()">Publicar Anuncio</button></div>
+  </div>
+</div>
+
+<!-- New COIL Activity -->
+<div class="modal-overlay" id="m-new-coil">
+  <div class="modal">
+    <div class="modal-hd"><h3>🌐 Nueva Actividad COIL</h3><button class="modal-close" onclick="closeModal('m-new-coil')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Título <span class="req">*</span></label><input type="text" id="coil-title" class="f-ctrl" placeholder="Ej: Webinar Neuroanatomía Comparada"></div>
+      <div class="f-group"><label>Descripción</label><textarea id="coil-desc" class="f-ctrl" rows="3" placeholder="Describe la actividad COIL..."></textarea></div>
+      <div class="f-row">
+        <div class="f-group"><label>Fecha y Hora</label><input type="datetime-local" id="coil-date" class="f-ctrl"></div>
+        <div class="f-group"><label>Tipo</label>
+          <select id="coil-type" class="f-ctrl"><option>Webinar</option><option>Congreso Virtual</option><option>ABP Binacional</option><option>Taller</option></select>
+        </div>
+      </div>
+      <div class="f-group"><label>Enlace de reunión (Zoom/Meet)</label><input type="url" id="coil-link" class="f-ctrl" placeholder="https://zoom.us/j/..."></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-new-coil')">Cancelar</button><button class="btn btn-primary" onclick="createCoilActivity()">Crear Actividad</button></div>
+  </div>
+</div>
+
+<!-- View Media -->
+<div class="modal-overlay" id="m-view-media">
+  <div class="modal modal-lg">
+    <div class="modal-hd"><h3 id="viewMediaTitle">Ver Archivo</h3><button class="modal-close" onclick="closeModal('m-view-media')">✕</button></div>
+    <div class="modal-body" id="viewMediaBody"></div>
+  </div>
+</div>
+
+<!-- Notifications -->
+<div class="modal-overlay" id="m-notifications">
+  <div class="modal">
+    <div class="modal-hd"><h3>🔔 Notificaciones</h3><button class="modal-close" onclick="closeModal('m-notifications')">✕</button></div>
+    <div class="modal-body" id="notificationsBody"></div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="clearNotifications()">Marcar todas como leídas</button></div>
+  </div>
+</div>
+
+<!-- Change Password -->
+<div class="modal-overlay" id="m-change-password">
+  <div class="modal">
+    <div class="modal-hd"><h3>🔑 Cambiar Contraseña</h3><button class="modal-close" onclick="closeModal('m-change-password')">✕</button></div>
+    <div class="modal-body">
+      <div class="f-group"><label>Contraseña actual</label><input type="password" id="cp-current" class="f-ctrl"></div>
+      <div class="f-group"><label>Nueva contraseña</label><input type="password" id="cp-new" class="f-ctrl" minlength="6"></div>
+      <div class="f-group"><label>Confirmar nueva contraseña</label><input type="password" id="cp-confirm" class="f-ctrl"></div>
+    </div>
+    <div class="modal-ft"><button class="btn btn-ghost" onclick="closeModal('m-change-password')">Cancelar</button><button class="btn btn-primary" onclick="changePassword()">Cambiar</button></div>
+  </div>
+</div>
+
+<!-- Escape Room -->
+<div class="modal-overlay" id="m-escaperoom">
+  <div class="modal">
+    <div class="modal-hd"><h3>🔐 Escape Room Morfofuncional</h3><button class="modal-close" onclick="closeModal('m-escaperoom')">✕</button></div>
+    <div class="modal-body">
+      <div style="background:var(--slate9);color:white;border-radius:var(--r-lg);padding:20px;margin-bottom:16px;text-align:center">
+        <div style="font-size:3rem;margin-bottom:8px">🏥</div>
+        <div style="font-family:var(--font-head);font-size:1.3rem;font-style:italic;margin-bottom:8px">El Cuerpo en Crisis</div>
+        <div style="font-size:.84rem;opacity:.75">Estás atrapado en un quirófano virtual. Resuelve 5 enigmas anatómicos antes de que el tiempo se agote.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:16px">
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🫀</span><span class="text-sm">Sala 1: Abdomen agudo — Diagnóstico anatómico</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🧠</span><span class="text-sm">Sala 2: Trauma craneal — Pares craneales</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🫁</span><span class="text-sm">Sala 3: Tórax — Cirugía de urgencia</span></div>
+        <div class="flex align-c gap2"><span style="font-size:1.1rem">🦴</span><span class="text-sm">Sala 4: Pelvis — Anatomía quirúrgica</span></div>
+      </div>
+    </div>
+    <div class="modal-ft">
+      <button class="btn btn-ghost" onclick="closeModal('m-escaperoom')">Cerrar</button>
+      <button class="btn btn-primary" onclick="closeModal('m-escaperoom');toast('Escape Room en preparación. Disponible pronto.','info')">Inscribirme →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════ JAVASCRIPT ════ -->
+<script>
+/* ══ PERSISTENT STATE (localStorage) ══ */
+const LS = {
+  get: (k, def) => { try { const v = localStorage.getItem('medcoil_'+k); return v ? JSON.parse(v) : def; } catch(e) { return def; } },
+  set: (k, v) => { try { localStorage.setItem('medcoil_'+k, JSON.stringify(v)); } catch(e) {} }
+};
+
+/* ══ INITIAL DATA ══ */
+function initData() {
+  if (!LS.get('users_init')) {
+    LS.set('users', {
+      "gnguida@pucesd.edu.ec": { pw:"admin2026", name:"Guido Nino Guida Acevedo", initials:"GN", role:"superadmin", institution:"PUCE-SD", color:"linear-gradient(135deg,#2563EB,#059669)", orcid:"0000-0002-3721-9618", career:"Medicina — Docente" },
+      "j.linares@luz.edu.ve": { pw:"admin2026", name:"Dr. Johan Linares Artigas", initials:"JL", role:"editor", institution:"LUZ", color:"linear-gradient(135deg,#7C3AED,#059669)", orcid:"0000-0000-0000-0001", career:"Medicina — Docente" },
+      "a.garcia@estudiante.luz.edu.ve": { pw:"student2026", name:"Ana García Montiel", initials:"AG", role:"student", institution:"LUZ", color:"linear-gradient(135deg,#0891B2,#7C3AED)", orcid:"", career:"Medicina, 4to año" }
+    });
+    LS.set('modules', [
+      {id:1,title:"Sistema Cardiovascular",cat:"Anatomía",desc:"Corazón, grandes vasos y circulación sistémica y pulmonar.",lessons:24,status:"Publicado",author:"G. Guida",inst:"PUCE-SD y LUZ",prog:100},
+      {id:2,title:"Sistema Nervioso",cat:"Anatomía",desc:"Neuroanatomía central y periférica con correlatos clínicos.",lessons:21,status:"Publicado",author:"J. Linares",inst:"PUCE-SD y LUZ",prog:100},
+      {id:3,title:"Sistema Musculoesquelético",cat:"Anatomía",desc:"Osteología, artrología y miología aplicada.",lessons:18,status:"Borrador",author:"G. Guida",inst:"PUCE-SD y LUZ",prog:72},
+      {id:4,title:"Sistema Digestivo y Hepatobiliar",cat:"Fisiología",desc:"Anatomía quirúrgica del abdomen y retroperitoneo.",lessons:20,status:"Publicado",author:"G. Guida",inst:"PUCE-SD y LUZ",prog:100},
+      {id:5,title:"Sistema Urogenital",cat:"Anatomía",desc:"Riñones, vías urinarias y aparato reproductor.",lessons:16,status:"Borrador",author:"J. Linares",inst:"LUZ",prog:45},
+      {id:6,title:"Cabeza, Cuello y Sentidos",cat:"Anatomía",desc:"Cráneo, pares craneales y órganos de los sentidos.",lessons:22,status:"Borrador",author:"G. Guida",inst:"PUCE-SD y LUZ",prog:60},
+      {id:7,title:"Embriología Clínica",cat:"Embriología",desc:"Desarrollo embrionario con correlatos malformativos.",lessons:14,status:"Borrador",author:"J. Linares",inst:"PUCE-SD y LUZ",prog:30}
+    ]);
+    LS.set('media', [
+      {id:1,name:"anatomia-cardiaca.mp4",type:"video",size:"248 MB",icon:"🎬",url:"",desc:"Clase magistral de anatomía cardíaca"},
+      {id:2,name:"corazon-4-camaras.png",type:"image",size:"1.2 MB",icon:"🖼️",url:"",desc:"Diagrama de las 4 cámaras cardíacas"},
+      {id:3,name:"guia-cardiovascular.pdf",type:"doc",size:"4.5 MB",icon:"📄",url:"",desc:"Guía de estudio del sistema cardiovascular"},
+      {id:4,name:"presentacion-caso.pptx",type:"slides",size:"12 MB",icon:"📊",url:"",desc:"Presentación de caso clínico"},
+      {id:5,name:"corazon-3d.glb",type:"3d",size:"18 MB",icon:"🧊",url:"",desc:"Modelo 3D del corazón"},
+      {id:6,name:"fisiologia-resp.mp4",type:"video",size:"312 MB",icon:"🎬",url:"",desc:"Fisiología respiratoria"},
+      {id:7,name:"neuroanatomy-slides.pptx",type:"slides",size:"8 MB",icon:"📊",url:"",desc:"Diapositivas de neuroanatomía"}
+    ]);
+    LS.set('forums', [
+      {id:1,title:"¿Qué implicación tiene la AMI en cirugía de recto bajo?",desc:"Análisis de la arteria mesentérica inferior y su relevancia en la cirugía colorrectal laparoscópica.",author:"G. Guida",av:"GN",institution:"PUCE-SD",module:"Sistema Digestivo y Hepatobiliar",type:"Debate Académico",replies:[{author:"Dr. Linares",av:"JL",inst:"LUZ",text:"Excelente planteamiento. Desde LUZ abordamos esto con el Atlas de Testut. La AMI debe preservarse en resecciones anteriores bajas para evitar isquemia anastomótica.",date:"hace 1 día"}],views:42,date:"hace 2 días"},
+      {id:2,title:"Diferencias Gray vs Testut en triángulo de Hesselbach",desc:"¿Cuál atlas utilizan en LUZ para la descripción del triángulo de Hesselbach? En PUCE-SD usamos Gray's Anatomy 42ª ed.",author:"Carlos M.",av:"CM",institution:"LUZ",module:"Sistema Musculoesquelético",type:"Pregunta",replies:[],views:88,date:"hace 4 días"},
+      {id:3,title:"Caso ABP: Síndrome de Mirizzi tipo III — conducta preoperatoria",desc:"Mujer 52 años, ictericia obstructiva, colédoco 12 mm en eco. ¿Cuál es la conducta preoperatoria y qué relaciones anatómicas son críticas?",author:"Luis M.",av:"LM",institution:"PUCE-SD",module:"Sistema Digestivo y Hepatobiliar",type:"Caso Clínico",replies:[{author:"Ana García",av:"AG",inst:"LUZ",text:"La relación del conducto cístico con el colédoco es fundamental. En el tipo III hay fístula colecistocoledociana.",date:"hace 3 días"}],views:134,date:"hace 1 semana"}
+    ]);
+    LS.set('evals', [
+      {id:1,title:"Quiz Anatomía Cardíaca",type:"Quiz",mod:"Sistema Cardiovascular",status:"Publicado",score:100,date:"2025-05-30",desc:"Evaluación de conocimientos sobre anatomía cardíaca."},
+      {id:2,title:"OSCE Exploración Física Torácica",type:"OSCE",mod:"Sistema Cardiovascular",status:"Borrador",score:100,date:"2025-06-05",desc:"Estación OSCE de exploración cardiovascular."},
+      {id:3,title:"ABP: Síndrome de Mirizzi",type:"ABP",mod:"Sistema Digestivo y Hepatobiliar",status:"Publicado",score:100,date:"2025-05-25",desc:"Caso ABP de síndrome de Mirizzi tipo III."},
+      {id:4,title:"Diagnóstico por imagen: TC abdomen",type:"Imagen",mod:"Sistema Digestivo y Hepatobiliar",status:"Borrador",score:100,date:"2025-06-10",desc:"Interpretación de TC abdominal con patología."}
+    ]);
+    LS.set('cases', [
+      {id:1,type:"ABP",title:"Síndrome de Mirizzi tipo III",desc:"Mujer 52 años, ictericia obstructiva, colédoco 12 mm. ¿Cuáles son las relaciones anatómicas del colédoco? ¿Qué estructura comprime el conducto?",mod:"Sistema Digestivo y Hepatobiliar",questions:"¿Cuáles son los límites del triángulo de Calot? ¿Qué estructuras están en riesgo?"},
+      {id:2,type:"OSCE",title:"Exploración neurológica: déficit VII par craneal",desc:"Paciente con paresia facial periférica derecha. Describe la exploración anatómica del VII par y su correlato diagnóstico.",mod:"Sistema Nervioso",questions:"¿Cómo diferencias parálisis central de periférica? ¿Cuál es el trayecto del VII par?"},
+      {id:3,type:"ABP",title:"Trauma penetrante abdominal — zona II retroperitoneal",desc:"Hombre 34 años, herida por arma blanca en flanco derecho. Identifica las estructuras anatómicas en riesgo por zonas retroperitoneales.",mod:"Sistema Digestivo y Hepatobiliar",questions:"¿Qué estructuras conforman la zona II retroperitoneal? ¿Cuál es la conducta quirúrgica?"}
+    ]);
+    LS.set('announcements', [
+      {id:1,title:"Inicio del Módulo 5: Sistema Urogenital — Semana del 19 de mayo",body:"El módulo de Sistema Urogenital y Reproductor estará disponible el lunes 19 de mayo. Revisa el material previo de retroperitoneo (Módulo 4) antes de comenzar.",date:"12 May 2025",author:"Dr. Guida Acevedo",priority:"normal"},
+      {id:2,title:"Resultado del I Quiz COIL: felicitaciones al equipo Cardiovascular Alpha",body:"El equipo COIL con mayor puntaje acumulado en el Quiz de Sistema Cardiovascular es Cardiovascular Alpha (LUZ). Se publican resultados en la sección de gamificación.",date:"9 May 2025",author:"Coordinación COIL",priority:"normal"},
+      {id:3,title:"Nueva bibliografía cargada: Atlas de Anatomía Humana — Sobotta 25.ª ed.",body:"Se ha cargado la edición digital en el repositorio de documentos. Disponible en Biblioteca de Medios → PDFs.",date:"5 May 2025",author:"J. Linares",priority:"normal"}
+    ]);
+    LS.set('coil_activities', [
+      {id:1,icon:"🫀",title:"Neuroanatomía comparada PUCE-LUZ",desc:"Sesión binacional 90 min. Enfoques de ambas facultades en debate con estudiantes.",date:"14 May 2025 · 17:00 ECT",type:"Webinar",link:""},
+      {id:2,icon:"🏆",title:"I Congreso Virtual COIL MorfoAnatomy",desc:"Presentación de proyectos estudiantiles. Evaluación por pares internacionales.",date:"28 May 2025 · 16:00 ECT",type:"Congreso Virtual",link:""},
+      {id:3,icon:"🔬",title:"Cirugía mínimo acceso: bases morfológicas",desc:"Conferencia quirúrgica con correlatos anatómicos de LUZ. Casos reales anonimizados.",date:"11 Jun 2025 · 18:00 ECT",type:"Webinar",link:""}
+    ]);
+    LS.set('lessons', []);
+    LS.set('notifications', [
+      {id:1,text:"Nuevo foro creado: Síndrome de Mirizzi tipo III",time:"hace 2 días",read:false},
+      {id:2,text:"Ana García completó el Quiz de Anatomía Cardíaca",time:"hace 3 días",read:false},
+      {id:3,text:"Nuevo usuario registrado: Carlos Mendoza",time:"hace 1 semana",read:false}
+    ]);
+    LS.set('users_init', true);
+  }
+}
+
+/* ══ STATE ══ */
+let currentUser = null;
+let quizIdx = 0, quizScore = 0, quizAnswered = false;
+let pendingImgData = null, pendingVideoData = null;
+
+const quizQuestions = [
+  {q:"¿Cuál arteria irriga el nodo sinusal en el 60% de los casos?",ctx:"Paciente de 68 años con bradicardia sinusal severa tras ACTP de la arteria coronaria derecha.",opts:["Arteria circunfleja izquierda","Arteria coronaria derecha","Primera rama diagonal","Arteria marginal obtusa"],correct:1,ok:"Correcto. La arteria del nodo sinusal es rama de la coronaria derecha en ~60%, lo que explica la alta incidencia de bradiarritmias en el infarto inferoposterior.",err:"Incorrecto. La arteria del nodo sinusal es mayoritariamente rama de la coronaria derecha."},
+  {q:"¿En qué segmento de Couinaud se localiza la bifurcación de la vena porta derecha?",ctx:"Resección hepática laparoscópica. El cirujano necesita identificar el plano entre segmentos anteriores y posteriores del lóbulo derecho.",opts:["Segmento IV","Segmento V","Segmento VII","A caballo entre VI y VII"],correct:1,ok:"Correcto. El segmento V es anterior e inferior en el lóbulo derecho.",err:"Incorrecto. La segmentación de Couinaud se divide por la distribución de la vena porta y las venas hepáticas."},
+  {q:"La lesión del nervio frénico a nivel C4 durante disección cervical izquierda produce:",ctx:"Post-tiroidectomía total. Imagen: hemidiafragma izquierdo elevado, sin paresia vocal.",opts:["Parálisis del hemidiafragma ipsilateral","Parálisis laríngea recurrente","Síndrome de Horner","Paresia del trapecio"],correct:0,ok:"Correcto. El nervio frénico (C3-C5) desciende por la cara anterior del escaleno anterior. Su lesión produce elevación del hemidiafragma ipsilateral.",err:"Incorrecto. El nervio laríngeo recurrente causa parálisis vocal. La imagen de hemidiafragma elevado señala lesión del nervio frénico."},
+  {q:"¿Cuál forma el límite lateral del triángulo de Hesselbach?",ctx:"Exploración laparoscópica de hernia inguinal directa.",opts:["Ligamento inguinal","Vasos epigástricos inferiores","Ligamento de Cooper","Fascia transversalis"],correct:1,ok:"Correcto. Los límites: borde del recto (medial), ligamento inguinal (inferior), vasos epigástricos inferiores (lateral).",err:"Incorrecto. El límite lateral son los vasos epigástricos inferiores."}
+];
+
+/* ══ LOGIN ══ */
+function switchLoginTab(tab) {
+  document.querySelectorAll('.ltab').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').classList.toggle('on', tab === 'register');
+  document.getElementById('loginErr').classList.remove('on');
+}
+
+function doLogin(e) {
+  e.preventDefault();
+  const em = document.getElementById('le').value.trim().toLowerCase();
+  const pw = document.getElementById('lp').value;
+  const users = LS.get('users', {});
+  const u = users[em];
+  if (u && u.pw === pw) loginUser(em, u);
+  else document.getElementById('loginErr').classList.add('on');
+}
+
+function doRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('rn').value.trim();
+  const lastname = document.getElementById('rln').value.trim();
+  const email = document.getElementById('re').value.trim().toLowerCase();
+  const inst = document.getElementById('ri').value;
+  const career = document.getElementById('rc').value.trim();
+  const orcid = document.getElementById('ro').value.trim();
+  const pw = document.getElementById('rp').value;
+  const pw2 = document.getElementById('rp2').value;
+  if (pw !== pw2) { toast('Las contraseñas no coinciden', 'error'); return; }
+  const users = LS.get('users', {});
+  if (users[email]) { toast('Este correo ya está registrado', 'error'); return; }
+  const initials = (name[0] + lastname[0]).toUpperCase();
+  const colors = ['linear-gradient(135deg,#0891B2,#7C3AED)','linear-gradient(135deg,#059669,#2563EB)','linear-gradient(135deg,#D97706,#E11D48)','linear-gradient(135deg,#7C3AED,#059669)'];
+  users[email] = { pw, name: name + ' ' + lastname, initials, role: 'student', institution: inst, color: colors[Math.floor(Math.random()*colors.length)], orcid, career };
+  LS.set('users', users);
+  addNotification(`Nuevo estudiante registrado: ${name} ${lastname} (${inst})`);
+  toast(`Cuenta creada exitosamente. Bienvenido/a, ${name}!`, 'success');
+  loginUser(email, users[email]);
+}
+
+function quickLogin(email) {
+  const users = LS.get('users', {});
+  loginUser(email, users[email]);
+}
+
+function loginUser(email, u) {
+  currentUser = {...u, email};
+  document.getElementById('loginErr').classList.remove('on');
+  document.getElementById('s-login').classList.remove('on');
+  document.getElementById('s-app').classList.add('on');
+  setupUI();
+  const startPage = u.role === 'student' ? 'dashboard' : 'admin-dashboard';
+  navTo(startPage);
+  toast(`Bienvenido/a, ${u.name.split(' ')[0]} 👋`, 'success');
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('s-app').classList.remove('on');
+  document.getElementById('s-login').classList.add('on');
+  document.getElementById('le').value = '';
+  document.getElementById('lp').value = '';
+}
+
+/* ══ UI SETUP ══ */
+function setupUI() {
+  const u = currentUser;
+  document.getElementById('headerAv').style.background = u.color;
+  document.getElementById('headerAv').textContent = u.initials;
+  document.getElementById('headerName').textContent = u.name.split(' ')[0];
+  document.getElementById('suAv').style.background = u.color;
+  document.getElementById('suAv').textContent = u.initials;
+  document.getElementById('suName').textContent = u.name;
+  document.getElementById('suRole').textContent = u.institution + ' · ' + getRoleLabel(u.role);
+  const vb = document.getElementById('viewToggleBtn');
+  vb.textContent = u.role === 'student' ? '⚙ Vista Admin' : '👁 Vista Estudiante';
+  buildNav(u.role);
+  initAdminData();
+  initStudentData();
+  setupProfile();
+  updateNotifBadge();
+}
+
+function getRoleLabel(r) { return {superadmin:'Super Admin',editor:'Admin/Editor',student:'Estudiante'}[r] || r; }
+
+/* ══ NAVIGATION ══ */
+function buildNav(role) {
+  const nav = document.getElementById('sidebarNav');
+  const adminMenus = [
+    {section:'Principal',items:[{id:'admin-dashboard',label:'Dashboard',icon:'📊'},{id:'admin-analytics',label:'Analíticas',icon:'📈'}]},
+    {section:'Contenido',items:[{id:'admin-modules',label:'Módulos',icon:'📚'},{id:'admin-editor',label:'Editor Lecciones',icon:'✏️'},{id:'admin-media',label:'Biblioteca Medios',icon:'🎬'},{id:'admin-cases',label:'Casos Clínicos',icon:'🩺'}]},
+    {section:'Colaboración',items:[{id:'admin-forums',label:'Foros',icon:'💬'},{id:'admin-evaluations',label:'Evaluaciones',icon:'🎓'},{id:'admin-coil',label:'Gestión COIL',icon:'🌐'}]},
+    {section:'Administración',items:[
+      ...(currentUser.role==='superadmin'?[{id:'admin-users',label:'Usuarios',icon:'👥'},{id:'admin-settings',label:'Ajustes',icon:'⚙️'}]:[]),
+      {id:'profile',label:'Mi Perfil',icon:'👤'}
+    ]},
+    {divider:true},{special:'logout'}
+  ];
+  const studentMenus = [
+    {section:'Inicio',items:[{id:'dashboard',label:'Panel',icon:'🏠'},{id:'announcements',label:'Anuncios',icon:'📢'},{id:'calendar',label:'Calendario',icon:'📅'}]},
+    {section:'Académico',items:[{id:'modules',label:'Módulos',icon:'📖'},{id:'evaluation',label:'Evaluaciones',icon:'❓'},{id:'cases',label:'Casos ABP',icon:'🩺'}]},
+    {section:'Colaboración',items:[{id:'coil',label:'Espacio COIL',icon:'🌐'},{id:'forum',label:'Foros',icon:'💬'}]},
+    {section:'Personal',items:[{id:'gamification',label:'Gamificación',icon:'🏆'},{id:'profile',label:'Mi Perfil',icon:'👤'}]},
+    {divider:true},{special:'logout'}
+  ];
+  const menus = role === 'student' ? studentMenus : adminMenus;
+  nav.innerHTML = menus.map(g => {
+    if (g.special === 'logout') return `<button class="nav-item" style="color:var(--rose)" onclick="doLogout()"><span class="ni-icon">🚪</span>Cerrar Sesión</button>`;
+    if (g.divider) return `<div class="nav-divider"></div>`;
+    return `<div class="nav-section">${g.section}</div>` + g.items.map(i => `
+      <button class="nav-item" id="nav-${i.id}" onclick="navTo('${i.id}')">
+        <span class="ni-icon">${i.icon}</span>${i.label}
+        ${i.badge ? `<span class="nav-badge">${i.badge}</span>` : ''}
+      </button>`).join('');
+  }).join('');
+}
+
+function navTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const pg = document.getElementById('p-' + pageId);
+  if (pg) pg.classList.add('active');
+  const nb = document.getElementById('nav-' + pageId);
+  if (nb) nb.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (pageId === 'evaluation' || pageId === 'admin-evaluations') setTimeout(renderQuiz, 100);
+  if (pageId === 'admin-media') { renderMediaGrid(); populateVideoLibrary(); populateImgLibrary(); }
+  if (pageId === 'admin-modules') renderModulesTable();
+  if (pageId === 'admin-forums') renderForums();
+  if (pageId === 'admin-users') renderUsers();
+  if (pageId === 'admin-cases') renderCases();
+  if (pageId === 'admin-evaluations') renderEvals();
+  if (pageId === 'admin-coil') renderCoilActivities();
+  if (pageId === 'admin-editor') renderLessonsTable();
+  if (pageId === 'announcements') renderAnnouncements();
+}
+
+function goHome() { navTo(currentUser?.role === 'student' ? 'dashboard' : 'admin-dashboard'); }
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+function toggleView() {
+  if (currentUser.role === 'student') {
+    currentUser.role = 'editor';
+    buildNav('editor');
+    navTo('admin-dashboard');
+    document.getElementById('viewToggleBtn').textContent = '👁 Vista Estudiante';
+    toast('Vista de administrador activada', 'info');
+  } else {
+    currentUser.role = 'student';
+    buildNav('student');
+    navTo('dashboard');
+    document.getElementById('viewToggleBtn').textContent = '⚙ Vista Admin';
+    toast('Vista de estudiante activada', 'info');
+  }
+}
+
+/* ══ ADMIN DATA ══ */
+function initAdminData() {
+  renderActivityTable();
+  renderContentStatus();
+  renderModulesTable();
+  renderMediaGrid();
+  renderForums();
+  renderEvals();
+  renderUsers();
+  renderCases();
+  renderCoilActivities();
+  renderAnalytics();
+  renderFeatureToggles();
+  renderLessonsTable();
+  populateModuleSelects();
+  const d = new Date();
+  document.getElementById('dashWelcome').textContent = `Bienvenido/a, ${currentUser.name.split(' ')[0]} — ${d.toLocaleDateString('es-EC',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}`;
+  updateDashStats();
+}
+
+function updateDashStats() {
+  const users = LS.get('users', {});
+  const modules = LS.get('modules', []);
+  const media = LS.get('media', []);
+  const forums = LS.get('forums', []);
+  const studentCount = Object.values(users).filter(u => u.role === 'student').length;
+  document.getElementById('dashStats').innerHTML = `
+    <div class="stat-card"><div class="sc-icon ic-blue">👥</div><div><div class="sc-label">Estudiantes</div><div class="sc-value">${studentCount}</div><div class="sc-change sc-up">↑ Activos</div></div></div>
+    <div class="stat-card"><div class="sc-icon ic-green">📚</div><div><div class="sc-label">Módulos</div><div class="sc-value">${modules.length}</div><div class="sc-change sc-info">${modules.filter(m=>m.status==='Publicado').length} publicados</div></div></div>
+    <div class="stat-card"><div class="sc-icon ic-amber">🎬</div><div><div class="sc-label">Archivos</div><div class="sc-value">${media.length}</div><div class="sc-change sc-up">↑ Biblioteca</div></div></div>
+    <div class="stat-card"><div class="sc-icon ic-purple">💬</div><div><div class="sc-label">Foros</div><div class="sc-value">${forums.length}</div><div class="sc-change sc-info">Activos</div></div></div>
+  `;
+}
+
+function renderActivityTable() {
+  const acts = [
+    {action:'Plataforma v4.0 iniciada',user:'Sistema',time:'Ahora',status:'Activo'},
+    {action:'Módulos cargados desde base de datos',user:'Sistema',time:'Ahora',status:'Publicado'},
+    {action:'Foros inicializados',user:'G. Guida',time:'Ahora',status:'Publicado'},
+    {action:'Usuarios configurados',user:'Sistema',time:'Ahora',status:'Activo'}
+  ];
+  document.getElementById('activityTbody').innerHTML = acts.map(a => `
+    <tr><td>${a.action}</td><td>${a.user}</td><td class="text-muted">${a.time}</td>
+    <td><span class="badge ${a.status==='Publicado'||a.status==='Activo'?'b-success':'b-warning'}">${a.status}</span></td></tr>
+  `).join('');
+}
+
+function renderContentStatus() {
+  const modules = LS.get('modules', []);
+  document.getElementById('contentStatus').innerHTML = modules.slice(0,5).map(m => `
+    <div class="mb2">
+      <div class="flex just-b align-c mb1">
+        <span class="text-sm fw6">${m.title}</span>
+        <span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+    </div>
+  `).join('') + `<div class="sep"></div><button class="btn btn-primary btn-sm w100" onclick="navTo('admin-modules')">Ver todos los módulos →</button>`;
+}
+
+function renderModulesTable() {
+  const modules = LS.get('modules', []);
+  document.getElementById('modCount').textContent = modules.length;
+  document.getElementById('modulesTbody').innerHTML = modules.map((m,i) => `
+    <tr>
+      <td class="text-muted" style="font-family:var(--font-mono);font-size:.75rem">${String(i+1).padStart(2,'0')}</td>
+      <td><strong>${m.title}</strong><div class="text-sm text-muted">${m.desc||''}</div></td>
+      <td><span class="badge b-primary">${m.cat}</span></td>
+      <td>${m.lessons} lecciones</td>
+      <td><span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span></td>
+      <td>${m.author}</td>
+      <td>
+        <div class="flex gap1">
+          <button class="btn btn-ghost btn-sm" onclick="editModule(${m.id})" title="Editar">✏️</button>
+          <button class="btn btn-ghost btn-sm" onclick="toggleModuleStatus(${m.id})" title="Cambiar estado">${m.status==='Publicado'?'📤':'📢'}</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteModule(${m.id})" title="Eliminar">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderMediaGrid() {
+  const media = LS.get('media', []);
+  document.getElementById('mediaCount').textContent = media.length;
+  const renderCard = (f) => `
+    <div class="media-card" id="mc-${f.id}">
+      <div class="media-thumb">
+        ${f.dataUrl && f.type==='image' ? `<img src="${f.dataUrl}" alt="${f.name}" style="width:100%;height:100%;object-fit:cover">` : f.icon}
+      </div>
+      <div class="media-info">
+        <div class="media-name" title="${f.name}">${f.name}</div>
+        <div class="media-meta"><span class="badge b-gray" style="font-size:.6rem">${f.type}</span><span>${f.size}</span></div>
+      </div>
+      <div class="media-acts">
+        <button onclick="viewMedia(${f.id})" title="Ver">👁</button>
+        <button onclick="copyMediaLink(${f.id})" title="Copiar enlace">🔗</button>
+        <button class="del" onclick="deleteMedia(${f.id})" title="Eliminar">🗑</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('mediaGrid').innerHTML = media.length ? media.map(renderCard).join('') : '<p class="text-muted">No hay archivos. Sube tu primer archivo.</p>';
+  const types = {Videos:'video',Images:'image',Docs:'doc',Slides:'slides','3d':'3d'};
+  Object.entries(types).forEach(([key,val]) => {
+    const el = document.getElementById('mg'+key);
+    if (el) {
+      const filtered = media.filter(f => f.type === val);
+      el.innerHTML = filtered.length ? filtered.map(renderCard).join('') : `<p class="text-muted">No hay archivos de tipo ${val}.</p>`;
+    }
+  });
+}
+
+function renderForums() {
+  const forums = LS.get('forums', []);
+  document.getElementById('forumCount').textContent = forums.length;
+  const renderThread = (f) => `
+    <div class="thread" id="thread-${f.id}">
+      <div class="thread-hd" onclick="toggleThread(${f.id})">
+        <div style="flex:1">
+          <div class="fw6">${f.title}</div>
+          <div class="text-sm text-muted">${f.institution} · ${f.module} · <span class="badge b-gray" style="font-size:.6rem">${f.type||'Debate'}</span> · ${f.date}</div>
+        </div>
+        <div class="flex align-c gap1">
+          <span class="badge b-cyan">${(f.replies||[]).length} resp.</span>
+          ${currentUser && currentUser.role !== 'student' ? `<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();deleteForum(${f.id})" style="color:var(--rose)">🗑</button>` : ''}
+          <span id="thread-arrow-${f.id}">⌄</span>
+        </div>
+      </div>
+      <div class="thread-body" id="thread-body-${f.id}">
+        <div class="flex align-c gap2 mb2">
+          <div class="av av-sm" style="background:var(--indigo)">${f.av}</div>
+          <div><strong>${f.author}</strong> · ${f.institution}</div>
+        </div>
+        <p class="text-muted mb2">${f.desc||''}</p>
+        ${(f.replies||[]).map((r,ri) => `
+          <div class="reply">
+            <div class="av av-sm" style="background:var(--violet)">${r.av}</div>
+            <div class="reply-content">
+              <strong>${r.author} (${r.inst}):</strong> ${r.text}
+              <div class="text-sm text-muted mt1">${r.date}
+                ${currentUser && currentUser.role !== 'student' ? `<button class="btn btn-ghost btn-sm" style="color:var(--rose);padding:2px 6px;margin-left:8px" onclick="deleteReply(${f.id},${ri})">🗑</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+        <div class="flex gap1 mt2">
+          <input type="text" class="f-ctrl" id="reply-input-${f.id}" placeholder="Escribe una respuesta académica..." onkeydown="if(event.key==='Enter')addReply(${f.id})">
+          <button class="btn btn-primary btn-sm" onclick="addReply(${f.id})">Responder</button>
+        </div>
+      </div>
+    </div>
+  `;
+  const html = forums.length ? forums.map(renderThread).join('') : '<p class="text-muted">No hay foros activos. Crea el primero.</p>';
+  ['forumsContainer','studentForums','coilForums'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
+}
+
+function toggleThread(id) {
+  const body = document.getElementById('thread-body-'+id);
+  const arrow = document.getElementById('thread-arrow-'+id);
+  body.classList.toggle('open');
+  if (arrow) arrow.textContent = body.classList.contains('open') ? '⌃' : '⌄';
+}
+
+function addReply(forumId) {
+  const input = document.getElementById('reply-input-'+forumId);
+  if (!input || !input.value.trim()) return;
+  const forums = LS.get('forums', []);
+  const forum = forums.find(f => f.id === forumId);
+  if (!forum) return;
+  if (!forum.replies) forum.replies = [];
+  forum.replies.push({
+    author: currentUser.name.split(' ')[0] + ' ' + currentUser.name.split(' ')[1],
+    av: currentUser.initials,
+    inst: currentUser.institution,
+    text: input.value.trim(),
+    date: 'Ahora mismo'
+  });
+  LS.set('forums', forums);
+  renderForums();
+  toast('Respuesta publicada', 'success');
+  setTimeout(() => {
+    const body = document.getElementById('thread-body-'+forumId);
+    if (body) body.classList.add('open');
+  }, 100);
+}
+
+function deleteForum(id) {
+  if (!confirm('¿Eliminar este foro y todas sus respuestas?')) return;
+  let forums = LS.get('forums', []);
+  forums = forums.filter(f => f.id !== id);
+  LS.set('forums', forums);
+  renderForums();
+  toast('Foro eliminado', 'success');
+}
+
+function deleteReply(forumId, replyIdx) {
+  if (!confirm('¿Eliminar esta respuesta?')) return;
+  const forums = LS.get('forums', []);
+  const forum = forums.find(f => f.id === forumId);
+  if (forum && forum.replies) {
+    forum.replies.splice(replyIdx, 1);
+    LS.set('forums', forums);
+    renderForums();
+    toast('Respuesta eliminada', 'success');
+  }
+}
+
+function filterForums(v) {
+  v = v.toLowerCase();
+  document.querySelectorAll('.thread').forEach(t => {
+    t.style.display = t.textContent.toLowerCase().includes(v) ? '' : 'none';
+  });
+}
+
+function renderEvals() {
+  const evals = LS.get('evals', []);
+  document.getElementById('evalCount').textContent = evals.length;
+  document.getElementById('evalsTbody').innerHTML = evals.map(e => `
+    <tr>
+      <td><strong>${e.title}</strong><div class="text-sm text-muted">${e.desc||''}</div></td>
+      <td><span class="badge b-primary">${e.type}</span></td>
+      <td>${e.mod}</td>
+      <td><span class="badge ${e.status==='Publicado'?'b-success':'b-warning'}">${e.status}</span></td>
+      <td>
+        <div class="flex gap1">
+          <button class="btn btn-ghost btn-sm" onclick="toggleEvalStatus(${e.id})">${e.status==='Publicado'?'📤':'📢'}</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteEval(${e.id})">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderUsers() {
+  const users = LS.get('users', {});
+  const list = Object.entries(users);
+  document.getElementById('userCount').textContent = list.length;
+  document.getElementById('usersTbody').innerHTML = list.map(([email, u]) => `
+    <tr>
+      <td><div class="flex align-c gap2"><div class="av av-sm" style="background:${u.color}">${u.initials}</div><strong>${u.name}</strong></div></td>
+      <td><span class="text-muted" style="font-size:.78rem">${email}</span></td>
+      <td><span class="badge b-gray">${u.institution}</span></td>
+      <td><span class="badge ${u.role==='superadmin'?'b-warning':u.role==='editor'?'b-success':'b-primary'}">${getRoleLabel(u.role)}</span></td>
+      <td class="text-muted text-sm">${u.career||'—'}</td>
+      <td>
+        <div class="flex gap1">
+          <button class="btn btn-ghost btn-sm" onclick="editUser('${email}')">✏️</button>
+          ${email !== currentUser.email ? `<button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteUser('${email}')">🗑</button>` : '<span class="text-sm text-muted">Tú</span>'}
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderCases() {
+  const cases = LS.get('cases', []);
+  const html = cases.length ? cases.map(c => `
+    <div class="case-card">
+      <span class="case-type ${c.type==='ABP'?'ct-abp':c.type==='OSCE'?'ct-osce':'ct-imagen'}">${c.type}</span>
+      <h4>${c.title}</h4>
+      <p>${c.desc}</p>
+      ${c.questions ? `<div style="background:var(--indigo-l);border-left:3px solid var(--indigo);padding:10px 14px;border-radius:0 var(--r-sm) var(--r-sm) 0;margin-top:10px;font-size:.83rem;color:var(--slate6)">${c.questions}</div>` : ''}
+      <div class="case-footer">
+        <span class="badge b-gray">📚 ${c.mod}</span>
+        <div class="flex gap1">
+          <button class="btn btn-primary btn-sm" onclick="toast('Caso abierto en modo interactivo','info')">Resolver →</button>
+          ${currentUser && currentUser.role !== 'student' ? `<button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteCase(${c.id})">🗑</button>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('') : '<p class="text-muted">No hay casos clínicos. Crea el primero.</p>';
+  ['casesContainer','studentCasesContainer'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
+}
+
+function renderCoilActivities() {
+  const acts = LS.get('coil_activities', []);
+  document.getElementById('coilActivities').innerHTML = acts.map(a => `
+    <div class="card">
+      <div class="card-body">
+        <div style="font-size:2rem;margin-bottom:10px">${a.icon||'🌐'}</div>
+        <div class="fw6 mb1">${a.title}</div>
+        <div class="text-muted mb2">${a.desc}</div>
+        <div class="badge b-primary mb2">${a.date}</div>
+        <div class="flex gap1">
+          <button class="btn btn-primary btn-sm" style="flex:1" onclick="${a.link?`window.open('${a.link}','_blank')`:`toast('Inscripción confirmada','success')`}">Inscribirme</button>
+          ${currentUser && currentUser.role !== 'student' ? `<button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteCoilActivity(${a.id})">🗑</button>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderAnalytics() {
+  const modules = LS.get('modules', []);
+  const users = LS.get('users', {});
+  const studentCount = Object.values(users).filter(u => u.role === 'student').length;
+  document.getElementById('analyticsStats').innerHTML = `
+    <div class="metric-mini"><div class="mm-val">${studentCount}</div><div class="mm-lbl">Estudiantes activos</div></div>
+    <div class="metric-mini"><div class="mm-val">78%</div><div class="mm-lbl">Tasa de completado</div></div>
+    <div class="metric-mini"><div class="mm-val">4.2</div><div class="mm-lbl">Nota promedio quiz</div></div>
+    <div class="metric-mini"><div class="mm-val">312h</div><div class="mm-lbl">Tiempo en plataforma</div></div>
+  `;
+  document.getElementById('analyticsProgress').innerHTML = modules.map(m => `
+    <div class="mb2">
+      <div class="flex just-b align-c mb1"><span class="text-sm fw6">${m.title}</span><span class="text-sm text-muted">${m.prog}%</span></div>
+      <div class="prog-track"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+    </div>
+  `).join('');
+  const top = [
+    {name:'Ana García',inst:'LUZ',xp:9500,level:'Nivel 8',initials:'AG',color:'linear-gradient(135deg,#0891B2,#7C3AED)'},
+    {name:'Carlos Mendoza',inst:'PUCE-SD',xp:8900,level:'Nivel 8',initials:'CM',color:'linear-gradient(135deg,#2563EB,#059669)'},
+    {name:'María Rodríguez',inst:'LUZ',xp:8200,level:'Nivel 7',initials:'MR',color:'linear-gradient(135deg,#D97706,#E11D48)'},
+    {name:'José Herrera',inst:'PUCE-SD',xp:7600,level:'Nivel 7',initials:'JH',color:'linear-gradient(135deg,#7C3AED,#059669)'}
+  ];
+  document.getElementById('topStudents').innerHTML = top.map((s,i) => `
+    <div class="flex align-c gap2 mb2" style="padding:8px;border-radius:8px;background:var(--slate0)">
+      <span style="font-size:1.1rem">${['🥇','🥈','🥉','4️⃣'][i]}</span>
+      <div class="av av-sm" style="background:${s.color}">${s.initials}</div>
+      <div style="flex:1"><div class="text-sm fw6">${s.name}</div><div style="font-size:.7rem;color:var(--slate4)">${s.inst}</div></div>
+      <span class="badge b-primary">${s.xp.toLocaleString()} XP</span>
+    </div>
+  `).join('');
+}
+
+function renderFeatureToggles() {
+  const features = [
+    {key:'ia',label:'Tutor IA (Genflow)',desc:'Asistente médico para estudiantes en tiempo real',on:true},
+    {key:'gami',label:'Gamificación',desc:'Puntos, medallas y ranking PUCE-LUZ',on:true},
+    {key:'coil',label:'Colaboración COIL',desc:'Foros y grupos compartidos entre instituciones',on:true},
+    {key:'xapi',label:'Analíticas xAPI / LRS',desc:'Trazabilidad de interacciones académicas',on:true},
+    {key:'reg',label:'Registro abierto',desc:'Permite que nuevos estudiantes se registren',on:true},
+    {key:'maint',label:'Modo Mantenimiento',desc:'Bloquea acceso estudiantil durante actualizaciones',on:false}
+  ];
+  document.getElementById('featureToggles').innerHTML = features.map(f => `
+    <div class="toggle-row" onclick="this.querySelector('.toggle').classList.toggle('on');toast('Funcionalidad actualizada','success')">
+      <div class="toggle ${f.on?'on':''}"></div>
+      <div class="tg-info"><div class="tg-title">${f.label}</div><div class="tg-desc">${f.desc}</div></div>
+    </div>
+  `).join('');
+}
+
+function renderLessonsTable() {
+  const lessons = LS.get('lessons', []);
+  const modules = LS.get('modules', []);
+  document.getElementById('lessonsTbody').innerHTML = lessons.length ? lessons.map(l => `
+    <tr>
+      <td><strong>${l.title}</strong></td>
+      <td>${l.module}</td>
+      <td><span class="badge b-gray">${l.type||'Teórica'}</span></td>
+      <td><span class="badge ${l.status==='Publicado'?'b-success':'b-warning'}">${l.status}</span></td>
+      <td>
+        <div class="flex gap1">
+          <button class="btn btn-ghost btn-sm" onclick="loadLesson(${l.id})">✏️ Editar</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--rose)" onclick="deleteLesson(${l.id})">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="5" class="text-muted" style="text-align:center;padding:20px">No hay lecciones guardadas. Crea la primera.</td></tr>';
+}
+
+function populateModuleSelects() {
+  const modules = LS.get('modules', []);
+  const opts = modules.map(m => `<option value="${m.title}">${m.title}</option>`).join('');
+  ['editorModSel','ev-mod','for-mod','cc-mod'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = opts;
+  });
+}
+
+/* ══ STUDENT DATA ══ */
+function initStudentData() {
+  const u = currentUser;
+  document.getElementById('wcName').textContent = u.name.split(' ')[0] + ' ' + u.name.split(' ')[1];
+  document.getElementById('wcSub').textContent = `Tienes 6 lecciones pendientes esta semana. Sistema Cardiovascular, módulo 3.`;
+  document.getElementById('xpName').textContent = u.name.split(' ')[0] + ' ' + u.name.split(' ')[1];
+  renderStudentModules();
+  renderCalendar();
+  renderAnnouncements();
+  renderGamification();
+  renderCoilEvents();
+  renderForums();
+  renderCases();
+}
+
+function renderStudentModules() {
+  const modules = LS.get('modules', []);
+  document.getElementById('studentModulesGrid').innerHTML = `
+    <p class="text-muted mb2">Cada módulo integra el enfoque morfofuncional de PUCE-SD con el programa anatómico de LUZ.</p>
+    <div class="g2">
+    ${modules.map(m => `
+      <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.boxShadow='var(--sh-md)'" onmouseout="this.style.boxShadow=''" onclick="toast('Abriendo módulo: ${m.title}','info')">
+        <div class="card-hd" style="border-left:4px solid var(--indigo)">
+          <div>
+            <div class="text-sm text-muted mb1">Módulo ${String(m.id).padStart(2,'0')}</div>
+            <div class="fw6" style="font-family:var(--font-head);font-style:italic">${m.title}</div>
+          </div>
+          <span class="badge ${m.status==='Publicado'?'b-success':'b-warning'}">${m.status}</span>
+        </div>
+        <div class="card-body">
+          <div class="text-muted mb2" style="font-size:.82rem">${m.desc||''}</div>
+          <div class="flex just-b align-c mb1"><span class="text-sm text-muted">${m.lessons} lecciones</span><span class="text-sm text-muted">${m.prog}%</span></div>
+          <div class="prog-track mb2"><div class="prog-fill" style="width:${m.prog}%"></div></div>
+          <div class="flex gap1">
+            <span class="badge b-primary">PUCE-SD</span>
+            <span class="badge b-danger">LUZ</span>
+          </div>
+        </div>
+      </div>
+    `).join('')}
+    </div>`;
+}
+
+function renderCalendar() {
+  const evMay = [
+    {date:'14 May 2025 · 17:00 ECT',title:'Webinar: Neuroanatomía comparada PUCE-LUZ',meta:'Zoom · Acceso abierto'},
+    {date:'22 May 2025',title:'Entrega: Caso ABP Módulo 4',meta:'Plataforma · 23:59 ECT'},
+    {date:'28 May 2025 · 16:00 ECT',title:'I Congreso Virtual COIL MorfoAnatomy',meta:'Google Meet · Solo inscritos'}
+  ];
+  const evJun = [
+    {date:'5 Jun 2025',title:'Quiz Cardiorrespiratorio (cronometrado)',meta:'Plataforma · 20 min'},
+    {date:'11 Jun 2025 · 18:00 ECT',title:'Cirugía mínimo acceso: bases morfológicas',meta:'Zoom · Acceso abierto'},
+    {date:'25 Jun 2025 · 17:30 ECT',title:'Variantes anatómicas en imagen radiológica',meta:'Zoom · Acceso abierto'}
+  ];
+  document.getElementById('calEvents').innerHTML = evMay.map(e => `
+    <div class="cal-event"><div class="cal-date">${e.date}</div><div class="cal-title">${e.title}</div><div class="cal-meta">${e.meta}</div></div>
+  `).join('');
+  document.getElementById('calEventsJun').innerHTML = evJun.map(e => `
+    <div class="cal-event" style="border-color:var(--violet);background:var(--violet-l)"><div class="cal-date" style="color:var(--violet)">${e.date}</div><div class="cal-title">${e.title}</div><div class="cal-meta">${e.meta}</div></div>
+  `).join('');
+  const coilEl = document.getElementById('coilEvents');
+  if (coilEl) coilEl.innerHTML = evMay.map(e => `
+    <div class="cal-event mb2">
+      <div class="cal-date">${e.date}</div>
+      <div class="cal-title">${e.title}</div>
+      <div class="flex just-b align-c mt1">
+        <span class="cal-meta">${e.meta}</span>
+        <button class="btn btn-sm btn-primary" onclick="this.textContent='✓ Inscrito';this.classList.add('btn-ghost');this.style.color='var(--emerald)';toast('Inscripción confirmada','success')">Inscribirme</button>
+      </div>
+    </div>
+  `).join('');
+  if (currentUser && currentUser.role !== 'student') {
+    document.getElementById('calActionsAdmin').innerHTML = `<button class="btn btn-primary btn-sm" onclick="toast('Editor de calendario en desarrollo','info')">+ Agregar Evento</button>`;
+  }
+}
+
+function renderAnnouncements() {
+  const ann = LS.get('announcements', []);
+  const priorityColors = {normal:'var(--indigo)',high:'var(--amber)',urgent:'var(--rose)'};
+  document.getElementById('announcementsContainer').innerHTML = ann.length ? ann.map(a => `
+    <div class="annc-card" style="border-left-color:${priorityColors[a.priority||'normal']}">
+      <div class="annc-hd">
+        <div class="annc-title">${a.title}</div>
+        <div class="flex gap1 align-c">
+          ${a.priority==='urgent'?'<span class="badge b-danger">Urgente</span>':a.priority==='high'?'<span class="badge b-warning">Alta</span>':'<span class="badge b-primary">Nuevo</span>'}
+          ${currentUser && currentUser.role !== 'student' ? `<button class="btn btn-ghost btn-sm" style="color:var(--rose);padding:3px 8px" onclick="deleteAnnouncement(${a.id})">🗑</button>` : ''}
+        </div>
+      </div>
+      <div class="annc-body">${a.body}</div>
+      <div class="annc-meta">📅 ${a.date} · ${a.author}</div>
+    </div>
+  `).join('') : '<p class="text-muted">No hay anuncios activos.</p>';
+  if (currentUser && currentUser.role !== 'student') {
+    document.getElementById('annActionsAdmin').innerHTML = `<button class="btn btn-primary" onclick="openModal('m-new-announcement')">+ Nuevo Anuncio</button>`;
+  }
+}
+
+function renderGamification() {
+  const badges = [
+    {icon:'🏅',name:'Primer Quiz',locked:false},{icon:'🫀',name:'Cardio Master',locked:false},
+    {icon:'🧠',name:'Neuro Expert',locked:false},{icon:'🌐',name:'COIL Pioneer',locked:false},
+    {icon:'🔬',name:'ABP Champion',locked:false},{icon:'🎓',name:'Graduación',locked:true},
+    {icon:'⭐',name:'10 Módulos',locked:true},{icon:'🏆',name:'Ranking #1',locked:true}
+  ];
+  document.getElementById('badgeGrid').innerHTML = badges.map(b => `
+    <div class="badge-item ${b.locked?'locked':''}">
+      <div class="bi-icon">${b.icon}</div>
+      <div class="bi-name">${b.name}</div>
+    </div>
+  `).join('');
+  const ranking = [
+    {n:1,name:'Ana García',inst:'LUZ',xp:9500,level:'Nv 8',initials:'AG',color:'linear-gradient(135deg,#0891B2,#7C3AED)'},
+    {n:2,name:'Carlos Mendoza',inst:'PUCE-SD',xp:8900,level:'Nv 8',initials:'CM',color:'linear-gradient(135deg,#2563EB,#059669)'},
+    {n:3,name:'María Rodríguez',inst:'LUZ',xp:8200,level:'Nv 7',initials:'MR',color:'linear-gradient(135deg,#D97706,#E11D48)'},
+    {n:4,name:'José Herrera',inst:'PUCE-SD',xp:7600,level:'Nv 7',initials:'JH',color:'linear-gradient(135deg,#7C3AED,#059669)'},
+    {n:5,name:'Laura Suárez',inst:'LUZ',xp:7100,level:'Nv 6',initials:'LS',color:'linear-gradient(135deg,#E11D48,#D97706)'}
+  ];
+  document.getElementById('rankingTbody').innerHTML = ranking.map(r => `
+    <tr>
+      <td>${['🥇','🥈','🥉','4','5'][r.n-1]}</td>
+      <td><div class="flex align-c gap2"><div class="av av-sm" style="background:${r.color}">${r.initials}</div>${r.name}</div></td>
+      <td><span class="badge b-gray">${r.inst}</span></td>
+      <td><strong>${r.xp.toLocaleString()}</strong></td>
+      <td><span class="badge b-purple">${r.level}</span></td>
+    </tr>
+  `).join('');
+}
+
+function renderCoilEvents() { /* Rendered by renderCalendar */ }
+
+function setupProfile() {
+  const u = currentUser;
+  document.getElementById('profileAv').style.background = u.color;
+  document.getElementById('profileAv').textContent = u.initials;
+  document.getElementById('profileName').textContent = u.name;
+  document.getElementById('profileRole').textContent = u.institution + ' · ' + getRoleLabel(u.role);
+  document.getElementById('profileNameInput').value = u.name;
+  document.getElementById('profileInstInput').value = u.institution;
+  document.getElementById('profileOrcidInput').value = u.orcid || '';
+  document.getElementById('profileEmailInput').value = u.email;
+  const isAdmin = u.role !== 'student';
+  document.getElementById('pstatMod').textContent = isAdmin ? LS.get('modules',[]).length : '7';
+  document.getElementById('pstatXP').textContent = isAdmin ? '—' : '9,500';
+  document.getElementById('pstatPubs').textContent = isAdmin ? LS.get('lessons',[]).filter(l=>l.status==='Publicado').length : '2';
+  document.getElementById('certsContainer').innerHTML = `
+    <div class="flex align-c gap2 mb2" style="padding:10px;background:var(--emerald-l);border-radius:8px">
+      <span>🎓</span><div><div class="text-sm fw6">Módulo: Sistema Cardiovascular</div><div style="font-size:.72rem;color:var(--slate4)">Completado · May 2025</div></div>
+    </div>
+    <div class="flex align-c gap2" style="padding:10px;background:var(--indigo-l);border-radius:8px">
+      <span>🌐</span><div><div class="text-sm fw6">Actividad COIL: Cardiovascular Alpha</div><div style="font-size:.72rem;color:var(--slate4)">En progreso · Semestre 2025</div></div>
+    </div>
+  `;
+}
+
+/* ══ CRUD OPERATIONS ══ */
+function createModule() {
+  const t = document.getElementById('nm-title').value.trim();
+  if (!t) return toast('El título es requerido', 'error');
+  const modules = LS.get('modules', []);
+  const newId = modules.length ? Math.max(...modules.map(m=>m.id)) + 1 : 1;
+  modules.push({
+    id: newId,
+    title: t,
+    cat: document.getElementById('nm-cat').value,
+    desc: document.getElementById('nm-desc').value,
+    lessons: 0,
+    status: document.getElementById('nm-status').value,
+    author: currentUser.name.split(' ')[0] + ' ' + currentUser.name.split(' ')[1].charAt(0) + '.',
+    inst: document.getElementById('nm-inst').value,
+    prog: 0
+  });
+  LS.set('modules', modules);
+  document.getElementById('nm-title').value = '';
+  document.getElementById('nm-desc').value = '';
+  renderModulesTable();
+  renderContentStatus();
+  populateModuleSelects();
+  updateDashStats();
+  closeModal('m-new-module');
+  toast('Módulo creado exitosamente', 'success');
+  addNotification(`Nuevo módulo creado: ${t}`);
+}
+
+function editModule(id) {
+  const modules = LS.get('modules', []);
+  const m = modules.find(x => x.id === id);
+  if (!m) return;
+  document.getElementById('em-id').value = id;
+  document.getElementById('em-title').value = m.title;
+  document.getElementById('em-desc').value = m.desc || '';
+  document.getElementById('em-cat').value = m.cat;
+  document.getElementById('em-status').value = m.status;
+  openModal('m-edit-module');
+}
+
+function saveEditModule() {
+  const id = parseInt(document.getElementById('em-id').value);
+  const modules = LS.get('modules', []);
+  const idx = modules.findIndex(m => m.id === id);
+  if (idx === -1) return;
+  modules[idx].title = document.getElementById('em-title').value.trim();
+  modules[idx].desc = document.getElementById('em-desc').value;
+  modules[idx].cat = document.getElementById('em-cat').value;
+  modules[idx].status = document.getElementById('em-status').value;
+  LS.set('modules', modules);
+  renderModulesTable();
+  renderContentStatus();
+  populateModuleSelects();
+  closeModal('m-edit-module');
+  toast('Módulo actualizado', 'success');
+}
+
+function toggleModuleStatus(id) {
+  const modules = LS.get('modules', []);
+  const m = modules.find(x => x.id === id);
+  if (!m) return;
+  m.status = m.status === 'Publicado' ? 'Borrador' : 'Publicado';
+  LS.set('modules', modules);
+  renderModulesTable();
+  renderContentStatus();
+  toast(`Módulo ${m.status === 'Publicado' ? 'publicado' : 'despublicado'}`, 'success');
+}
+
+function deleteModule(id) {
+  if (!confirm('¿Eliminar este módulo permanentemente?')) return;
+  let modules = LS.get('modules', []);
+  modules = modules.filter(m => m.id !== id);
+  LS.set('modules', modules);
+  renderModulesTable();
+  renderContentStatus();
+  populateModuleSelects();
+  updateDashStats();
+  toast('Módulo eliminado', 'success');
+}
+
+function createEval() {
+  const t = document.getElementById('ev-title').value.trim();
+  if (!t) return toast('Título requerido', 'error');
+  const evals = LS.get('evals', []);
+  const newId = evals.length ? Math.max(...evals.map(e=>e.id)) + 1 : 1;
+  evals.push({
+    id: newId,
+    title: t,
+    type: document.getElementById('ev-type').value,
+    mod: document.getElementById('ev-mod').value,
+    status: document.getElementById('ev-status').value,
+    score: parseInt(document.getElementById('ev-score').value) || 100,
+    date: document.getElementById('ev-date').value,
+    desc: document.getElementById('ev-desc').value
+  });
+  LS.set('evals', evals);
+  document.getElementById('ev-title').value = '';
+  renderEvals();
+  closeModal('m-new-eval');
+  toast('Evaluación creada', 'success');
+}
+
+function toggleEvalStatus(id) {
+  const evals = LS.get('evals', []);
+  const e = evals.find(x => x.id === id);
+  if (!e) return;
+  e.status = e.status === 'Publicado' ? 'Borrador' : 'Publicado';
+  LS.set('evals', evals);
+  renderEvals();
+  toast(`Evaluación ${e.status}`, 'success');
+}
+
+function deleteEval(id) {
+  if (!confirm('¿Eliminar esta evaluación?')) return;
+  let evals = LS.get('evals', []);
+  evals = evals.filter(e => e.id !== id);
+  LS.set('evals', evals);
+  renderEvals();
+  toast('Evaluación eliminada', 'success');
+}
+
+function createForum() {
+  const t = document.getElementById('for-title').value.trim();
+  const d = document.getElementById('for-desc').value.trim();
+  if (!t || !d) return toast('Tema y descripción son requeridos', 'error');
+  const forums = LS.get('forums', []);
+  const newId = forums.length ? Math.max(...forums.map(f=>f.id)) + 1 : 1;
+  forums.unshift({
+    id: newId,
+    title: t,
+    desc: d,
+    author: currentUser.name.split(' ')[0] + ' ' + currentUser.name.split(' ')[1],
+    av: currentUser.initials,
+    institution: currentUser.institution,
+    module: document.getElementById('for-mod').value,
+    type: document.getElementById('for-type').value,
+    replies: [],
+    views: 0,
+    date: 'Ahora mismo'
+  });
+  LS.set('forums', forums);
+  document.getElementById('for-title').value = '';
+  document.getElementById('for-desc').value = '';
+  renderForums();
+  closeModal('m-new-forum');
+  toast('Foro creado exitosamente', 'success');
+  addNotification(`Nuevo foro: ${t}`);
+}
+
+function createCase() {
+  const t = document.getElementById('cc-title').value.trim();
+  const d = document.getElementById('cc-desc').value.trim();
+  if (!t || !d) return toast('Título y descripción son requeridos', 'error');
+  const cases = LS.get('cases', []);
+  const newId = cases.length ? Math.max(...cases.map(c=>c.id)) + 1 : 1;
+  cases.push({
+    id: newId,
+    type: document.getElementById('cc-type').value,
+    title: t,
+    desc: d,
+    mod: document.getElementById('cc-mod').value,
+    questions: document.getElementById('cc-questions').value
+  });
+  LS.set('cases', cases);
+  document.getElementById('cc-title').value = '';
+  document.getElementById('cc-desc').value = '';
+  document.getElementById('cc-questions').value = '';
+  renderCases();
+  closeModal('m-new-case');
+  toast('Caso clínico creado', 'success');
+}
+
+function deleteCase(id) {
+  if (!confirm('¿Eliminar este caso clínico?')) return;
+  let cases = LS.get('cases', []);
+  cases = cases.filter(c => c.id !== id);
+  LS.set('cases', cases);
+  renderCases();
+  toast('Caso eliminado', 'success');
+}
+
+function createUser() {
+  const n = document.getElementById('nu-name').value.trim();
+  const e = document.getElementById('nu-email').value.trim().toLowerCase();
+  const pw = document.getElementById('nu-pw').value;
+  if (!n || !e || !pw) return toast('Nombre, email y contraseña son requeridos', 'error');
+  const users = LS.get('users', {});
+  if (users[e]) return toast('Este email ya está registrado', 'error');
+  const initials = n.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  users[e] = {
+    pw, name: n,
+    initials,
+    role: document.getElementById('nu-role').value,
+    institution: document.getElementById('nu-inst').value,
+    color: 'linear-gradient(135deg,#2563EB,#7C3AED)',
+    orcid: '',
+    career: document.getElementById('nu-career').value
+  };
+  LS.set('users', users);
+  document.getElementById('nu-name').value = '';
+  document.getElementById('nu-email').value = '';
+  document.getElementById('nu-pw').value = '';
+  renderUsers();
+  updateDashStats();
+  closeModal('m-new-user');
+  toast('Usuario creado exitosamente', 'success');
+  addNotification(`Nuevo usuario creado: ${n}`);
+}
+
+function editUser(email) {
+  const users = LS.get('users', {});
+  const u = users[email];
+  if (!u) return;
+  document.getElementById('eu-email-orig').value = email;
+  document.getElementById('eu-name').value = u.name;
+  document.getElementById('eu-email').value = email;
+  document.getElementById('eu-inst').value = u.institution;
+  document.getElementById('eu-role').value = u.role;
+  document.getElementById('eu-career').value = u.career || '';
+  openModal('m-edit-user');
+}
+
+function saveEditUser() {
+  const origEmail = document.getElementById('eu-email-orig').value;
+  const newEmail = document.getElementById('eu-email').value.trim().toLowerCase();
+  const users = LS.get('users', {});
+  const u = users[origEmail];
+  if (!u) return;
+  u.name = document.getElementById('eu-name').value.trim();
+  u.institution = document.getElementById('eu-inst').value;
+  u.role = document.getElementById('eu-role').value;
+  u.career = document.getElementById('eu-career').value;
+  u.initials = u.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  if (newEmail !== origEmail) {
+    delete users[origEmail];
+    users[newEmail] = u;
+  } else {
+    users[origEmail] = u;
+  }
+  LS.set('users', users);
+  renderUsers();
+  closeModal('m-edit-user');
+  toast('Usuario actualizado', 'success');
+}
+
+function deleteUser(email) {
+  if (email === currentUser.email) return toast('No puedes eliminar tu propia cuenta', 'error');
+  if (!confirm('¿Eliminar este usuario permanentemente?')) return;
+  const users = LS.get('users', {});
+  delete users[email];
+  LS.set('users', users);
+  renderUsers();
+  updateDashStats();
+  toast('Usuario eliminado', 'success');
+}
+
+function createAnnouncement() {
+  const t = document.getElementById('an-title').value.trim();
+  const b = document.getElementById('an-body').value.trim();
+  if (!t || !b) return toast('Título y contenido son requeridos', 'error');
+  const ann = LS.get('announcements', []);
+  const newId = ann.length ? Math.max(...ann.map(a=>a.id)) + 1 : 1;
+  ann.unshift({
+    id: newId,
+    title: t,
+    body: b,
+    date: new Date().toLocaleDateString('es-EC',{day:'numeric',month:'short',year:'numeric'}),
+    author: currentUser.name.split(' ')[0] + ' ' + currentUser.name.split(' ')[1],
+    priority: document.getElementById('an-priority').value
+  });
+  LS.set('announcements', ann);
+  document.getElementById('an-title').value = '';
+  document.getElementById('an-body').value = '';
+  renderAnnouncements();
+  closeModal('m-new-announcement');
+  toast('Anuncio publicado', 'success');
+  addNotification(`Nuevo anuncio: ${t}`);
+}
+
+function deleteAnnouncement(id) {
+  if (!confirm('¿Eliminar este anuncio?')) return;
+  let ann = LS.get('announcements', []);
+  ann = ann.filter(a => a.id !== id);
+  LS.set('announcements', ann);
+  renderAnnouncements();
+  toast('Anuncio eliminado', 'success');
+}
+
+function createCoilActivity() {
+  const t = document.getElementById('coil-title').value.trim();
+  if (!t) return toast('Título requerido', 'error');
+  const acts = LS.get('coil_activities', []);
+  const newId = acts.length ? Math.max(...acts.map(a=>a.id)) + 1 : 1;
+  const dateVal = document.getElementById('coil-date').value;
+  const dateStr = dateVal ? new Date(dateVal).toLocaleDateString('es-EC',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'Por confirmar';
+  acts.push({
+    id: newId,
+    icon: '🌐',
+    title: t,
+    desc: document.getElementById('coil-desc').value,
+    date: dateStr,
+    type: document.getElementById('coil-type').value,
+    link: document.getElementById('coil-link').value
+  });
+  LS.set('coil_activities', acts);
+  document.getElementById('coil-title').value = '';
+  document.getElementById('coil-desc').value = '';
+  document.getElementById('coil-link').value = '';
+  renderCoilActivities();
+  closeModal('m-new-coil');
+  toast('Actividad COIL creada', 'success');
+}
+
+function deleteCoilActivity(id) {
+  if (!confirm('¿Eliminar esta actividad COIL?')) return;
+  let acts = LS.get('coil_activities', []);
+  acts = acts.filter(a => a.id !== id);
+  LS.set('coil_activities', acts);
+  renderCoilActivities();
+  toast('Actividad eliminada', 'success');
+}
+
+/* ══ MEDIA ══ */
+function triggerUpload() { document.getElementById('fileInput').click(); }
+function uzDrag(e, on) { e.preventDefault(); document.getElementById('uploadZone').classList.toggle('drag', on); }
+function uzDrop(e) { e.preventDefault(); uzDrag(e, false); handleFiles({target:{files:e.dataTransfer.files}}); }
+
+function handleFiles(e) {
+  const files = Array.from(e.target.files);
+  if (!files.length) return;
+  const prog = document.getElementById('uploadProgress');
+  const bar = document.getElementById('uploadBar');
+  const status = document.getElementById('uploadStatus');
+  prog.classList.add('on');
+  let processed = 0;
+  files.forEach((f, idx) => {
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      let type = 'doc';
+      if (f.type.startsWith('video')) type = 'video';
+      else if (f.type.startsWith('image')) type = 'image';
+      else if (f.name.match(/\.pptx?$/i)) type = 'slides';
+      else if (f.name.match(/\.glb|\.gltf$/i)) type = '3d';
+      const icons = {video:'🎬',image:'🖼️',doc:'📄',slides:'📊','3d':'🧊'};
+      const media = LS.get('media', []);
+      const newId = media.length ? Math.max(...media.map(m=>m.id)) + 1 : 1;
+      const entry = {
+        id: newId,
+        name: f.name,
+        type,
+        size: f.size > 1024*1024 ? (f.size/1024/1024).toFixed(1)+' MB' : (f.size/1024).toFixed(0)+' KB',
+        icon: icons[type] || '📁',
+        desc: '',
+        url: ''
+      };
+      if (type === 'image' || type === 'video') {
+        entry.dataUrl = ev.target.result;
+      }
+      media.unshift(entry);
+      LS.set('media', media);
+      processed++;
+      const pct = Math.round(processed / files.length * 100);
+      bar.style.width = pct + '%';
+      status.textContent = `Procesando ${processed}/${files.length}...`;
+      if (processed === files.length) {
+        setTimeout(() => {
+          prog.classList.remove('on');
+          bar.style.width = '0%';
+          renderMediaGrid();
+          updateDashStats();
+          toast(`${files.length} archivo(s) subido(s) exitosamente`, 'success');
+          addNotification(`${files.length} archivo(s) subido(s) a la biblioteca`);
+        }, 500);
+      }
+    };
+    reader.readAsDataURL(f);
+  });
+  e.target.value = '';
+}
+
+function addUrlMedia() {
+  const name = document.getElementById('um-name').value.trim();
+  const url = document.getElementById('um-url').value.trim();
+  if (!name || !url) return toast('Nombre y URL son requeridos', 'error');
+  const type = document.getElementById('um-type').value;
+  const icons = {video:'🎬',doc:'📄',image:'🖼️',slides:'📊',link:'🔗'};
+  const media = LS.get('media', []);
+  const newId = media.length ? Math.max(...media.map(m=>m.id)) + 1 : 1;
+  media.unshift({id:newId, name, type, size:'URL', icon:icons[type]||'🔗', url, desc:document.getElementById('um-desc').value});
+  LS.set('media', media);
+  document.getElementById('um-name').value = '';
+  document.getElementById('um-url').value = '';
+  renderMediaGrid();
+  updateDashStats();
+  closeModal('m-add-url-media');
+  toast('Recurso agregado', 'success');
+}
+
+function viewMedia(id) {
+  const media = LS.get('media', []);
+  const f = media.find(m => m.id === id);
+  if (!f) return;
+  document.getElementById('viewMediaTitle').textContent = f.name;
+  let content = '';
+  if (f.type === 'image' && f.dataUrl) {
+    content = `<img src="${f.dataUrl}" alt="${f.name}" style="max-width:100%;border-radius:var(--r-md)">`;
+  } else if (f.type === 'video' && f.dataUrl) {
+    content = `<video controls style="width:100%;border-radius:var(--r-md)"><source src="${f.dataUrl}">Tu navegador no soporta video.</video>`;
+  } else if (f.type === 'video' && f.url) {
+    const embed = f.url.includes('youtube') ? f.url.replace('watch?v=','embed/').replace('youtu.be/','www.youtube.com/embed/') : f.url;
+    content = `<iframe src="${embed}" frameborder="0" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:var(--r-md)"></iframe>`;
+  } else if (f.url) {
+    content = `<div style="text-align:center;padding:40px"><div style="font-size:4rem;margin-bottom:16px">${f.icon}</div><div class="fw6 mb2">${f.name}</div><a href="${f.url}" target="_blank" class="btn btn-primary">Abrir recurso →</a></div>`;
+  } else {
+    content = `<div style="text-align:center;padding:40px"><div style="font-size:4rem;margin-bottom:16px">${f.icon}</div><div class="fw6 mb2">${f.name}</div><div class="text-muted">${f.size} · ${f.type}</div>${f.desc?`<p class="mt2">${f.desc}</p>`:''}</div>`;
+  }
+  document.getElementById('viewMediaBody').innerHTML = content;
+  openModal('m-view-media');
+}
+
+function copyMediaLink(id) {
+  const media = LS.get('media', []);
+  const f = media.find(m => m.id === id);
+  if (!f) return;
+  const link = f.url || `https://med-coil.edu/media/${f.name}`;
+  if (navigator.clipboard) navigator.clipboard.writeText(link).then(() => toast('Enlace copiado', 'success'));
+  else toast('Enlace: ' + link, 'info');
+}
+
+function deleteMedia(id) {
+  if (!confirm('¿Eliminar este archivo permanentemente?')) return;
+  let media = LS.get('media', []);
+  media = media.filter(m => m.id !== id);
+  LS.set('media', media);
+  renderMediaGrid();
+  updateDashStats();
+  toast('Archivo eliminado', 'success');
+}
+
+function filterMedia(v) {
+  v = v.toLowerCase();
+  document.querySelectorAll('.media-card').forEach(c => {
+    c.style.display = c.textContent.toLowerCase().includes(v) ? '' : 'none';
+  });
+}
+
+function populateVideoLibrary() {
+  const media = LS.get('media', []);
+  const videos = media.filter(m => m.type === 'video');
+  document.getElementById('videoLibraryList').innerHTML = videos.length ? videos.map(v => `
+    <div class="flex align-c gap2 mb2 p1" style="padding:8px;border-radius:8px;background:var(--slate0);cursor:pointer" onclick="selectLibraryVideo('${v.dataUrl||v.url||''}','${v.name}')">
+      <span>🎬</span><div class="text-sm fw6">${v.name}</div>
+    </div>
+  `).join('') : '<p class="text-muted text-sm">No hay videos en la biblioteca.</p>';
+}
+
+function populateImgLibrary() {
+  const media = LS.get('media', []);
+  const images = media.filter(m => m.type === 'image');
+  document.getElementById('imgLibraryList').innerHTML = images.length ? images.map(img => `
+    <div style="cursor:pointer;border:2px solid var(--slate2);border-radius:var(--r-sm);overflow:hidden" onclick="selectLibraryImg('${img.dataUrl||img.url||''}','${img.name}')">
+      ${img.dataUrl ? `<img src="${img.dataUrl}" style="width:100%;height:60px;object-fit:cover">` : `<div style="height:60px;display:flex;align-items:center;justify-content:center;background:var(--slate1)">🖼️</div>`}
+      <div style="font-size:.65rem;padding:4px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${img.name}</div>
+    </div>
+  `).join('') : '<p class="text-muted text-sm">No hay imágenes en la biblioteca.</p>';
+}
+
+function selectLibraryVideo(url, name) {
+  pendingVideoData = url;
+  document.getElementById('videoUrl').value = url;
+  toast(`Video seleccionado: ${name}`, 'info');
+}
+
+function selectLibraryImg(url, name) {
+  pendingImgData = url;
+  document.getElementById('imgUrl').value = url;
+  toast(`Imagen seleccionada: ${name}`, 'info');
+}
+
+/* ══ EDITOR ══ */
+function ec(cmd) { document.getElementById('lessonEditor').focus(); document.execCommand(cmd, false, null); }
+function ef(tag) { document.getElementById('lessonEditor').focus(); document.execCommand('formatBlock', false, tag); }
+function eLink() { const u = prompt('URL del enlace:'); if (u) { document.getElementById('lessonEditor').focus(); document.execCommand('createLink', false, u); } }
+function eBlockquote() { document.getElementById('lessonEditor').focus(); document.execCommand('formatBlock', false, 'blockquote'); }
+function eHR() { document.getElementById('lessonEditor').focus(); document.execCommand('insertHTML', false, '<hr style="border:none;border-top:2px solid var(--slate2);margin:1rem 0">'); }
+function clearEditor() { if (confirm('¿Limpiar el editor?')) document.getElementById('lessonEditor').innerHTML = '<p>Comienza a escribir...</p>'; }
+
+function eTable() {
+  const rows = parseInt(prompt('Número de filas:', '3')) || 3;
+  const cols = parseInt(prompt('Número de columnas:', '3')) || 3;
+  let html = '<table style="width:100%;border-collapse:collapse;margin:1rem 0"><thead><tr>';
+  for (let c = 0; c < cols; c++) html += `<th style="border:1px solid #CBD5E1;padding:8px 12px;background:#F1F5F9;font-weight:700">Columna ${c+1}</th>`;
+  html += '</tr></thead><tbody>';
+  for (let r = 0; r < rows; r++) {
+    html += '<tr>';
+    for (let c = 0; c < cols; c++) html += `<td style="border:1px solid #CBD5E1;padding:8px 12px">Dato</td>`;
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  document.getElementById('lessonEditor').focus();
+  document.execCommand('insertHTML', false, html);
+}
+
+function handleVideoInsert(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingVideoData = ev.target.result;
+    toast('Video listo para insertar', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleImgInsert(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    pendingImgData = ev.target.result;
+    document.getElementById('imgPreview').innerHTML = `<img src="${ev.target.result}" style="max-height:150px;border-radius:var(--r-sm)">`;
+    toast('Imagen lista para insertar', 'success');
+  };
+  reader.readAsDataURL(file);
+}
+
+function insertVideo() {
+  const url = document.getElementById('videoUrl').value;
+  const src = pendingVideoData || url;
+  closeModal('m-insert-video');
+  if (!src) return;
+  document.getElementById('lessonEditor').focus();
+  if (src.startsWith('data:video') || src.match(/\.(mp4|webm|ogg)$/i)) {
+    document.execCommand('insertHTML', false, `<div style="margin:1rem 0"><video controls style="width:100%;border-radius:8px"><source src="${src}">Tu navegador no soporta video.</video></div>`);
+  } else {
+    let embed = src;
+    if (src.includes('youtube.com/watch')) embed = src.replace('watch?v=','embed/');
+    else if (src.includes('youtu.be/')) embed = src.replace('youtu.be/','www.youtube.com/embed/');
+    document.execCommand('insertHTML', false, `<div style="margin:1rem 0"><iframe src="${embed}" frameborder="0" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:8px"></iframe></div>`);
+  }
+  pendingVideoData = null;
+  document.getElementById('videoUrl').value = '';
+}
+
+function insertImg() {
+  const url = document.getElementById('imgUrl').value;
+  const alt = document.getElementById('imgAlt').value || 'Imagen';
+  const src = pendingImgData || url;
+  closeModal('m-insert-img');
+  if (!src) return;
+  document.getElementById('lessonEditor').focus();
+  document.execCommand('insertHTML', false, `<img src="${src}" alt="${alt}" style="max-width:100%;border-radius:8px;margin:.5rem 0">`);
+  pendingImgData = null;
+  document.getElementById('imgUrl').value = '';
+  document.getElementById('imgPreview').innerHTML = '';
+}
+
+function saveDraft() {
+  const t = document.getElementById('lessonTitle').value.trim();
+  if (!t) return toast('El título es requerido', 'error');
+  saveLesson('Borrador');
+  toast(`Borrador "${t}" guardado`, 'success');
+}
+
+function publishLesson() {
+  const t = document.getElementById('lessonTitle').value.trim();
+  if (!t) return toast('El título es requerido', 'error');
+  saveLesson('Publicado');
+  toast(`Lección "${t}" publicada exitosamente`, 'success');
+  addNotification(`Nueva lección publicada: ${t}`);
+}
+
+function saveLesson(status) {
+  const t = document.getElementById('lessonTitle').value.trim();
+  const lessons = LS.get('lessons', []);
+  const newId = lessons.length ? Math.max(...lessons.map(l=>l.id)) + 1 : 1;
+  lessons.push({
+    id: newId,
+    title: t,
+    module: document.getElementById('editorModSel').value,
+    type: document.getElementById('lessonType').value,
+    content: document.getElementById('lessonEditor').innerHTML,
+    duration: document.getElementById('lessonDuration').value,
+    tags: document.getElementById('lessonTags').value,
+    objectives: document.getElementById('lessonObjectives').value,
+    status,
+    author: currentUser.name,
+    date: new Date().toLocaleDateString('es-EC')
+  });
+  LS.set('lessons', lessons);
+  renderLessonsTable();
+  setupProfile();
+}
+
+function loadLesson(id) {
+  const lessons = LS.get('lessons', []);
+  const l = lessons.find(x => x.id === id);
+  if (!l) return;
+  document.getElementById('lessonTitle').value = l.title;
+  document.getElementById('lessonEditor').innerHTML = l.content;
+  document.getElementById('lessonDuration').value = l.duration || '';
+  document.getElementById('lessonTags').value = l.tags || '';
+  document.getElementById('lessonObjectives').value = l.objectives || '';
+  navTo('admin-editor');
+  toast('Lección cargada para edición', 'info');
+}
+
+function deleteLesson(id) {
+  if (!confirm('¿Eliminar esta lección?')) return;
+  let lessons = LS.get('lessons', []);
+  lessons = lessons.filter(l => l.id !== id);
+  LS.set('lessons', lessons);
+  renderLessonsTable();
+  toast('Lección eliminada', 'success');
+}
+
+/* ══ QUIZ ══ */
+function renderQuiz() {
+  const qc = document.getElementById('quizContent');
+  if (!qc) return;
+  const q = quizQuestions[quizIdx];
+  const pct = quizIdx / quizQuestions.length * 100;
+  document.getElementById('quizBar').style.width = pct + '%';
+  qc.innerHTML = `
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-ctx">${q.ctx}</div>
+    <div class="quiz-opts" id="qopts">
+      ${q.opts.map((o,i) => `<button class="qopt" onclick="answerQuiz(${i})">${o}</button>`).join('')}
+    </div>
+    <div class="quiz-fb" id="qfb"></div>
+    <div class="quiz-nav">
+      <span class="quiz-counter">Pregunta ${quizIdx+1} / ${quizQuestions.length}</span>
+      <button class="btn btn-primary btn-sm" id="qnext" onclick="nextQuestion()" disabled>Siguiente →</button>
+    </div>`;
+  quizAnswered = false;
+}
+
+function answerQuiz(i) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const q = quizQuestions[quizIdx];
+  const opts = document.querySelectorAll('.qopt');
+  opts.forEach(o => o.disabled = true);
+  opts[q.correct].classList.add('correct');
+  const fb = document.getElementById('qfb');
+  if (i === q.correct) {
+    quizScore++;
+    fb.className = 'quiz-fb show ok';
+    fb.innerHTML = '✓ ' + q.ok;
+  } else {
+    opts[i].classList.add('wrong');
+    fb.className = 'quiz-fb show err';
+    fb.innerHTML = '✗ ' + q.err;
+  }
+  document.getElementById('qnext').disabled = false;
+  document.getElementById('quizScore').textContent = quizScore + ' correcta' + (quizScore !== 1 ? 's' : '');
+}
+
+function nextQuestion() {
+  quizIdx++;
+  if (quizIdx >= quizQuestions.length) {
+    document.getElementById('quizBar').style.width = '100%';
+    document.getElementById('quizContent').innerHTML = `
+      <div style="text-align:center;padding:28px 0">
+        <div style="font-size:3rem;margin-bottom:14px">${quizScore >= 3 ? '🎉' : '📚'}</div>
+        <div style="font-family:var(--font-head);font-size:1.5rem;font-style:italic;margin-bottom:8px">Quiz completado</div>
+        <div style="color:var(--slate5);margin-bottom:20px">${quizScore} de ${quizQuestions.length} correctas · ${Math.round(quizScore/quizQuestions.length*100)}%</div>
+        <button class="btn btn-primary" onclick="quizIdx=0;quizScore=0;renderQuiz();document.getElementById('quizScore').textContent='0 correctas'">Reintentar</button>
+      </div>`;
+    toast(`Quiz completado: ${quizScore}/${quizQuestions.length} correctas`, quizScore >= 3 ? 'success' : 'warning');
+  } else { renderQuiz(); }
+}
+
+/* ══ AI TUTOR ══ */
+const aiResponses = [
+  "El sistema cardiovascular está compuesto por el corazón, los vasos sanguíneos y la sangre. El corazón actúa como una bomba dual: el lado derecho maneja la circulación pulmonar y el izquierdo la sistémica.",
+  "Las vías del dolor siguen el tracto espinotalámico lateral (dolor y temperatura) y las columnas posteriores (tacto fino y propiocepción). Esta distinción tiene directa aplicación diagnóstica en el síndrome de Brown-Séquard.",
+  "El triángulo de Hesselbach tiene tres límites: el borde lateral del recto abdominal (medial), el ligamento inguinal (inferior) y los vasos epigástricos inferiores (lateral). La hernia directa protruye dentro de este triángulo.",
+  "La segmentación hepática de Couinaud divide el hígado en 8 segmentos funcionales basados en la distribución de la vena porta y las venas hepáticas. Esta división es fundamental para planificar resecciones hepáticas.",
+  "El nervio frénico (C3-C5, principalmente C4) inerva el diafragma. Mnemónico: C3, C4, C5 keep the diaphragm alive. Su lesión causa parálisis diafragmática ipsilateral.",
+  "La arteria mesentérica superior irriga el intestino delgado y el colon hasta el ángulo esplénico. Su oclusión produce isquemia mesentérica aguda, una emergencia quirúrgica con alta mortalidad.",
+  "Los pares craneales son 12. Los motores puros: III, IV, VI, XI, XII. Los sensitivos puros: I, II, VIII. Los mixtos: V, VII, IX, X. El X par (vago) tiene la distribución más amplia del sistema nervioso autónomo."
+];
+let aiIdx = 0;
+
+function studentAskAI() {
+  const input = document.getElementById('studentChatInput');
+  const log = document.getElementById('studentChatLog');
+  if (!input.value.trim()) return;
+  log.innerHTML += `<div class="chat-msg user"><strong>Tú:</strong> ${input.value}</div>`;
+  input.value = '';
+  log.scrollTop = log.scrollHeight;
+  setTimeout(() => {
+    const resp = aiResponses[aiIdx % aiResponses.length];
+    aiIdx++;
+    log.innerHTML += `<div class="chat-msg bot"><strong>Genflow:</strong> ${resp}</div>`;
+    log.scrollTop = log.scrollHeight;
+  }, 900);
+}
+
+/* ══ NOTIFICATIONS ══ */
+function addNotification(text) {
+  const notifs = LS.get('notifications', []);
+  const newId = notifs.length ? Math.max(...notifs.map(n=>n.id)) + 1 : 1;
+  notifs.unshift({id:newId, text, time:'Ahora mismo', read:false});
+  LS.set('notifications', notifs);
+  updateNotifBadge();
+}
+
+function updateNotifBadge() {
+  const notifs = LS.get('notifications', []);
+  const unread = notifs.filter(n => !n.read).length;
+  const dot = document.getElementById('notifDot');
+  if (dot) { dot.textContent = unread; dot.style.display = unread > 0 ? 'flex' : 'none'; }
+}
+
+function clearNotifications() {
+  const notifs = LS.get('notifications', []);
+  notifs.forEach(n => n.read = true);
+  LS.set('notifications', notifs);
+  updateNotifBadge();
+  renderNotifications();
+  toast('Notificaciones marcadas como leídas', 'success');
+}
+
+function renderNotifications() {
+  const notifs = LS.get('notifications', []);
+  document.getElementById('notificationsBody').innerHTML = notifs.length ? notifs.map(n => `
+    <div style="padding:12px;border-bottom:1px solid var(--slate2);${!n.read?'background:var(--indigo-l);':''}">
+      <div class="text-sm fw6">${n.text}</div>
+      <div class="text-sm text-muted mt1">${n.time}</div>
+    </div>
+  `).join('') : '<p class="text-muted" style="text-align:center;padding:20px">No hay notificaciones</p>';
+}
+
+/* ══ PROFILE ══ */
+function saveProfile() {
+  const users = LS.get('users', {});
+  const u = users[currentUser.email];
+  if (!u) return;
+  u.name = document.getElementById('profileNameInput').value.trim() || u.name;
+  u.institution = document.getElementById('profileInstInput').value.trim() || u.institution;
+  u.orcid = document.getElementById('profileOrcidInput').value.trim();
+  const newPw = document.getElementById('profilePwInput').value;
+  if (newPw && newPw.length >= 6) u.pw = newPw;
+  LS.set('users', users);
+  currentUser = {...currentUser, ...u};
+  setupProfile();
+  setupUI();
+  toast('Perfil actualizado exitosamente', 'success');
+}
+
+function changePassword() {
+  const current = document.getElementById('cp-current').value;
+  const newPw = document.getElementById('cp-new').value;
+  const confirm = document.getElementById('cp-confirm').value;
+  const users = LS.get('users', {});
+  const u = users[currentUser.email];
+  if (!u || u.pw !== current) return toast('Contraseña actual incorrecta', 'error');
+  if (newPw !== confirm) return toast('Las contraseñas no coinciden', 'error');
+  if (newPw.length < 6) return toast('La contraseña debe tener al menos 6 caracteres', 'error');
+  u.pw = newPw;
+  LS.set('users', users);
+  closeModal('m-change-password');
+  toast('Contraseña cambiada exitosamente', 'success');
+}
+
+/* ══ SETTINGS ══ */
+function saveSettings() { toast('Configuración guardada correctamente', 'success'); }
+function changeColor(hex) {
+  document.documentElement.style.setProperty('--indigo', hex);
+  toast('Color aplicado', 'success');
+}
+
+/* ══ EXPORT ══ */
+function exportUsersCSV() {
+  const users = LS.get('users', {});
+  let csv = 'Nombre,Email,Institución,Rol,Carrera\n';
+  Object.entries(users).forEach(([email, u]) => {
+    csv += `"${u.name}","${email}","${u.institution}","${getRoleLabel(u.role)}","${u.career||''}"\n`;
+  });
+  downloadCSV(csv, 'usuarios-medcoil.csv');
+}
+
+function exportModulesCSV() {
+  const modules = LS.get('modules', []);
+  let csv = 'ID,Título,Categoría,Lecciones,Estado,Autor\n';
+  modules.forEach(m => {
+    csv += `${m.id},"${m.title}","${m.cat}",${m.lessons},"${m.status}","${m.author}"\n`;
+  });
+  downloadCSV(csv, 'modulos-medcoil.csv');
+}
+
+function exportReport() {
+  const modules = LS.get('modules', []);
+  const users = LS.get('users', {});
+  const media = LS.get('media', []);
+  const forums = LS.get('forums', []);
+  const report = `MED-COIL v4.0 — Reporte de Plataforma
+Fecha: ${new Date().toLocaleDateString('es-EC')}
+Generado por: ${currentUser.name}
+
+RESUMEN:
+- Usuarios registrados: ${Object.keys(users).length}
+- Módulos: ${modules.length} (${modules.filter(m=>m.status==='Publicado').length} publicados)
+- Archivos en biblioteca: ${media.length}
+- Foros activos: ${forums.length}
+
+MÓDULOS:
+${modules.map(m=>`- ${m.title} [${m.status}] — ${m.lessons} lecciones`).join('\n')}
+`;
+  const blob = new Blob([report], {type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'reporte-medcoil.txt';
+  a.click();
+  toast('Reporte exportado', 'success');
+}
+
+function downloadCSV(csv, filename) {
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  toast('CSV exportado', 'success');
+}
+
+/* ══ TABLE FILTER ══ */
+function filterTable(input, id) {
+  const v = input.value.toLowerCase();
+  document.querySelectorAll(`#${id} tbody tr`).forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(v) ? '' : 'none';
+  });
+}
+
+/* ══ TABS ══ */
+function switchTab(btn, targetId) {
+  const parent = btn.closest('.card-body, .card, .modal-body');
+  if (!parent) return;
+  parent.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  parent.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(targetId);
+  if (target) target.classList.add('active');
+}
+
+/* ══ MODALS ══ */
+function openModal(id) {
+  const m = document.getElementById(id);
+  if (!m) return;
+  m.classList.add('open');
+  if (id === 'm-notifications') renderNotifications();
+  if (id === 'm-insert-video') { populateVideoLibrary(); }
+  if (id === 'm-insert-img') { populateImgLibrary(); }
+}
+function closeModal(id) {
+  const m = document.getElementById(id);
+  if (m) m.classList.remove('open');
+}
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('modal-overlay')) e.target.classList.remove('open');
+});
+
+/* ══ TOAST ══ */
+function toast(msg, type = 'info') {
+  const icons = {success:'✓',error:'✗',info:'ℹ',warning:'⚠'};
+  const c = document.getElementById('toasts');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${icons[type]||'ℹ'}</span> ${msg}`;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3200);
+}
+
+/* ══ SEARCH ══ */
+function handleSearch(v) {
+  if (v.length < 2) return;
+  const modules = LS.get('modules', []);
+  const matches = modules.filter(m => m.title.toLowerCase().includes(v.toLowerCase()));
+  if (matches.length) toast(`Encontrado: ${matches[0].title}`, 'info');
+}
+
+/* ══ INIT ══ */
+document.addEventListener('DOMContentLoaded', () => {
+  initData();
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) document.getElementById('sidebar').classList.remove('open');
+  });
+});
+</script>
+</body>
+</html>
